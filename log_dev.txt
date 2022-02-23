@@ -1,0 +1,8 @@
+#BUG/DIRECTORY
+    - improve architecture to respect Flask's architecture environment 
+    - create tests/template/test_index
+#ERROR/INPUT_EMAIL
+    - Entering a unknown email crashes the app #ISSUE1
+        - improve template with required email 
+        - modify showSummary()
+        - create tests/template/test_login

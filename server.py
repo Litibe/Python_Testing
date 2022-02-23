@@ -26,7 +26,10 @@ def create_app(test_config=None):
 
     @app.route('/showSummary',methods=['POST'])
     def showSummary():
-        club = [club for club in clubs if club['email'] == request.form['email']][0]
+        if request.form.get('email','') != '':
+            club = [club for club in clubs if club['email'] == request.form['email']]  
+            if club == [] : 
+                return redirect("/")
         return render_template('welcome.html',club=club,competitions=competitions)
 
 
