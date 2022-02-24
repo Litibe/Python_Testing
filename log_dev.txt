@@ -1,3 +1,6 @@
+#BUG/max_12_places
+Clubs shouldn't be able to book more than 12 places per competition #4
+    - update server.py
 #BUG/purchasePlaces
 Clubs should not be able to use more than their points allowed #2
     - update template with club max points 

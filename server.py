@@ -84,6 +84,8 @@ def create_app(test_config=None):
         if foundClub and foundCompetition:
             max_places = min(
                 int(foundCompetition["numberOfPlaces"]), int(foundClub['points']))
+            if max_places > 12:
+                max_places = 12
             return render_template('booking.html', club=foundClub, competition=foundCompetition, max_places=max_places)
         else:
             flash("Something went wrong-please try again")
@@ -110,6 +112,8 @@ def create_app(test_config=None):
                 flash("Something went wrong-please try again")
         max_places = min(
             int(competition["numberOfPlaces"]), int(club['points']))
+        if max_places > 12:
+            max_places = 12
         return render_template('welcome.html', club=club, competitions=competitions, max_places=max_places)
 
     # TODO: Add route for points display
