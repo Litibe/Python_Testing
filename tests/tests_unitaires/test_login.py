@@ -10,9 +10,6 @@ def app():
     app.config.update({
         "TESTING": True,
     })
-
-    # other setup can go here
-
     yield app
 
 
@@ -21,7 +18,6 @@ def client(app):
     return app.test_client()
 
 def test_request_correct_login(client):
-    print(all_emails[0])
     params={"email":all_emails[0]}
     response = client.post('/showSummary', data=params)
     assert response.status_code == 200
