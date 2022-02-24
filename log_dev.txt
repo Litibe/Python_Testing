@@ -1,3 +1,8 @@
+#BUG/purchasePlaces
+Clubs should not be able to use more than their points allowed #2
+    - update template with club max points 
+    - create funtions to save update points and place into json files
+    - max places = min between competition available place and club points
 #BUG/available_points
     - update template to see Points available after login
 #BUG/DIRECTORY
