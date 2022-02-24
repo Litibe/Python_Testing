@@ -1,3 +1,5 @@
+#BUG/available_points
+    - update template to see Points available after login
 #BUG/DIRECTORY
     - improve architecture to respect Flask's architecture environment 
     - create tests/template/test_index

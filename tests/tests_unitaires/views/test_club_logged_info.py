@@ -1,3 +1,4 @@
+import email
 import pytest
 from server import create_app, loadClubs
 
@@ -19,13 +20,10 @@ def client(app):
     return app.test_client()
 
 
-def test_request_correct_login(client):
-    params = {"email": all_emails[0]}
-    response = client.post('/showSummary', data=params)
+def test_render_context_showSummary_clubs_details(client):
+    clubs = loadClubs()
+    response = client.post(
+        "/showSummary", data={"email":  clubs[0]['email']})
     assert response.status_code == 200
-
-
-def test_request_incorrect_login(client):
-    params = {"email": "test@test.fr"}
-    response = client.post('/showSummary', data=params)
-    assert response.status_code == 302
+    assert ("Points available: "+clubs[0]['points']).encode() in response.data
+    assert clubs[0]['email'].encode() in response.data
