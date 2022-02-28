@@ -1,15 +1,24 @@
-#bug/booking_places_past_compt
-Booking places in past competitions
-=>  They should not be able to book a place on a post-dated competition (but past competitions should be visible). 
+#BUG/booking_places_past_compt
+    Booking places in past competitions #5
+    =>  They should not be able to book a place on a post-dated competition 
+        (but past competitions should be visible). 
+        - update server.py to detect date_now
+        - update template welcome to compare compt["date"] 
+            with date_now to enable or not the booking link for competition.
+        - if method POST url('/purchasePlaces')
+            redirect to welcome.html with flash message alert
+        - disabled booking page if competiton is finished
+            return welcome Page with flash message 
+
 #BUG/max_12_places
-Clubs shouldn't be able to book more than 12 places per competition #4
-    - update server.py
+    Clubs shouldn't be able to book more than 12 places per competition #4
+        - update server.py
 #BUG/purchasePlaces
-Clubs should not be able to use more than their points allowed #2
-    - update template with club max points 
-    - create funtions to save update points and place into json files
-        => BUG: Point updates are not reflected #6 ok
-    - max places = min between competition available place and club points
+    Clubs should not be able to use more than their points allowed #2
+        - update template with club max points 
+        - create funtions to save update points and place into json files
+            => BUG: Point updates are not reflected #6 ok
+        - max places = min between competition available place and club points
 #BUG/available_points
     - update template to see Points available after login
 #BUG/DIRECTORY

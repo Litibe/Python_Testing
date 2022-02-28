@@ -1,3 +1,4 @@
+import datetime
 import json
 from flask import Flask, render_template, request, redirect, flash, url_for
 
@@ -54,6 +55,17 @@ def saveCompetitions(competition_name, competition_numberOfPlaces):
     return True
 
 
+def load_datime_now():
+    '''
+    Create date now
+            Returns:
+                    date now - format : "%Y-%m-%d %H:%M:%S"
+    '''
+    now = datetime.datetime.now()
+    now = now.strftime("%Y-%m-%d %H:%M:%S")
+    return now
+
+
 def create_app(test_config=None):
     app = Flask(__name__)
     app.secret_key = 'something_special'
@@ -74,14 +86,18 @@ def create_app(test_config=None):
                 return redirect("/")
             else:
                 club = club[0]
-        return render_template('welcome.html', club=club, competitions=competitions)
+        date_now = load_datime_now()
+        return render_template('welcome.html',
+                               club=club,
+                               competitions=competitions, date_now=date_now)
 
     @app.route('/book/<competition>/<club>')
     def book(competition, club):
         foundClub = [c for c in clubs if c['name'] == club][0]
         foundCompetition = [
             c for c in competitions if c['name'] == competition][0]
-        if foundClub and foundCompetition:
+        date_now = load_datime_now()
+        if foundClub and foundCompetition and (date_now < foundCompetition['date']):
             max_places = min(
                 int(foundCompetition["numberOfPlaces"]), int(foundClub['points']))
             if max_places > 12:
@@ -89,32 +105,36 @@ def create_app(test_config=None):
             return render_template('booking.html', club=foundClub, competition=foundCompetition, max_places=max_places)
         else:
             flash("Something went wrong-please try again")
-            return render_template('welcome.html', club=club, competitions=competitions)
+            return render_template('welcome.html', club=club, competitions=competitions, date_now=date_now)
 
     @ app.route('/purchasePlaces', methods=['POST'])
     def purchasePlaces():
+        date_now = load_datime_now()
+
         competition = [c for c in competitions if c['name']
                        == request.form['competition']][0]
         club = [c for c in clubs if c['name'] == request.form['club']][0]
         placesRequired = int(request.form['places'])
+        if date_now < competition['date']:
+            if int(competition['numberOfPlaces']) >= placesRequired:
+                competition['numberOfPlaces'] = int(
+                    competition['numberOfPlaces'])-placesRequired
+                club["points"] = str(int(club["points"])-placesRequired)
+                return_save_competitions = saveCompetitions(competition["name"],
+                                                            (str(competition["numberOfPlaces"])))
+                return_save_clubs = saveClubs(
+                    club_name=club["name"], club_points=str(club["points"]))
+                if return_save_competitions and return_save_clubs:
+                    flash('Great-booking complete!')
+                else:
+                    flash("Something went wrong-please try again")
+        else:
+            flash("Competition is finished - See the Date !")
 
-        if int(competition['numberOfPlaces']) >= placesRequired:
-            competition['numberOfPlaces'] = int(
-                competition['numberOfPlaces'])-placesRequired
-            club["points"] = str(int(club["points"])-placesRequired)
-            return_save_competitions = saveCompetitions(competition["name"],
-                                                        (str(competition["numberOfPlaces"])))
-            return_save_clubs = saveClubs(
-                club_name=club["name"], club_points=str(club["points"]))
-            if return_save_competitions and return_save_clubs:
-                flash('Great-booking complete!')
-            else:
-                flash("Something went wrong-please try again")
-        max_places = min(
-            int(competition["numberOfPlaces"]), int(club['points']))
-        if max_places > 12:
-            max_places = 12
-        return render_template('welcome.html', club=club, competitions=competitions, max_places=max_places)
+        return render_template('welcome.html',
+                               club=club,
+                               competitions=competitions,
+                               date_now=date_now)
 
     # TODO: Add route for points display
 
