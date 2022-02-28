@@ -24,9 +24,11 @@
             Date: {{comp['date']}}</br>
             
             {%if comp['date']>date_now%}
-            Number of Places: {{comp['numberOfPlaces']}}
                 {%if comp['numberOfPlaces']|int >0%}
+                Number of Places: {{comp['numberOfPlaces']}}
                 <a href="{{ url_for('book',competition=comp['name'],club=club['name'])}}">Book Places</a>
+                {% else %}
+                Competition Completed ! 
                 {%endif%}
             {% else %} 
             Competition finished !    

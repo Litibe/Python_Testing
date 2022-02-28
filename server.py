@@ -2,6 +2,8 @@ import datetime
 import json
 from flask import Flask, render_template, request, redirect, flash, url_for
 
+import CONSTANTS
+
 
 def loadClubs():
     with open('clubs.json') as c:
@@ -100,12 +102,18 @@ def create_app(test_config=None):
         if foundClub and foundCompetition and (date_now < foundCompetition['date']):
             max_places = min(
                 int(foundCompetition["numberOfPlaces"]), int(foundClub['points']))
-            if max_places > 12:
-                max_places = 12
-            return render_template('booking.html', club=foundClub, competition=foundCompetition, max_places=max_places)
+            if max_places > CONSTANTS.MAX_BOOKING_PLACES:
+                max_places = CONSTANTS.MAX_BOOKING_PLACES
+            return render_template('booking.html',
+                                   club=foundClub,
+                                   competition=foundCompetition,
+                                   max_places=max_places)
         else:
             flash("Something went wrong-please try again")
-            return render_template('welcome.html', club=club, competitions=competitions, date_now=date_now)
+            return render_template('welcome.html',
+                                   club=club,
+                                   competitions=competitions,
+                                   date_now=date_now)
 
     @ app.route('/purchasePlaces', methods=['POST'])
     def purchasePlaces():
@@ -120,10 +128,12 @@ def create_app(test_config=None):
                 competition['numberOfPlaces'] = int(
                     competition['numberOfPlaces'])-placesRequired
                 club["points"] = str(int(club["points"])-placesRequired)
-                return_save_competitions = saveCompetitions(competition["name"],
-                                                            (str(competition["numberOfPlaces"])))
+                return_save_competitions = saveCompetitions(
+                    competition["name"],
+                    (str(competition["numberOfPlaces"])))
                 return_save_clubs = saveClubs(
-                    club_name=club["name"], club_points=str(club["points"]))
+                    club_name=club["name"],
+                    club_points=str(club["points"]))
                 if return_save_competitions and return_save_clubs:
                     flash('Great-booking complete!')
                 else:
