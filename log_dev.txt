@@ -1,3 +1,5 @@
+#fix/max_places_per_compt
+    - add CONSTANTS.PY
 #BUG/booking_places_past_compt
     Booking places in past competitions #5
     =>  They should not be able to book a place on a post-dated competition 
