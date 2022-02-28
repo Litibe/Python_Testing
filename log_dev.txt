@@ -1,3 +1,6 @@
+#bug/booking_places_past_compt
+Booking places in past competitions
+=>  They should not be able to book a place on a post-dated competition (but past competitions should be visible). 
 #BUG/max_12_places
 Clubs shouldn't be able to book more than 12 places per competition #4
     - update server.py
@@ -5,6 +8,7 @@ Clubs shouldn't be able to book more than 12 places per competition #4
 Clubs should not be able to use more than their points allowed #2
     - update template with club max points 
     - create funtions to save update points and place into json files
+        => BUG: Point updates are not reflected #6 ok
     - max places = min between competition available place and club points
 #BUG/available_points
     - update template to see Points available after login
