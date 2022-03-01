@@ -1,5 +1,10 @@
 #feature/display_board
     Implement Points Display Board #7
+    - add tests
+    - add booking.json to control Reservations
+    - modify template
+    - create function to load, save, extract into booking.json
+    - max places per competition controled with places already reserved
 #tests/purchase_places
     - add tests for functions into server.py
 #improve/json_files
