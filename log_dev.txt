@@ -1,3 +1,5 @@
+#feature/display_public
+    add dashbord without login to see clubs list with points
 #feature/display_board
     Implement Points Display Board #7
     - add tests
