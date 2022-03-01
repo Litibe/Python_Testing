@@ -5,6 +5,7 @@
     <title>Summary | GUDLFT Registration</title>
 </head>
 <body>
+    <h1>Summary | GUDLFT Registration</h1>
         <h2>Welcome, {{club['name']}} ({{club['email']}}) </h2><a href="{{url_for('logout')}}">Logout</a>
 
     {% with messages = get_flashed_messages()%}
@@ -15,7 +16,7 @@
         {% endfor %}
        </ul>
     {% endif%}
-    <div id="available_points">Points available: {{club['points']}}</div>
+    <div>Points available: {{club['points']}}</div>
     <h3>Competitions:</h3>
     <ul>
         {% for comp in competitions%}
@@ -37,10 +38,30 @@
         <hr />
         {% endfor %}
     </ul>
-    <aside>
-    Test
-    </aside>
     {%endwith%}
-
+    <h3>DashBord - display booking:</h3>
+    {% if booking != [] %}
+    <ul>
+    {% for events in booking %}
+        {% for event, infos in events.items() %}
+        <li>Date : {{event}} : <br/>
+            {% for key, value in infos.items() %}
+                <ul>
+                <li>Competition : {{key}}</li>
+                    <ul>
+                    {% for club, places in value.items() %}
+                        <li> Club : {{club}} =>  {{places}} Places
+                    {% endfor %}
+                    </ul>
+                </ul>
+                <hr/>
+           {% endfor %}
+        </li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+    {%else%}
+    Any Reservations
+    {% endif %}
 </body>
 </html>
