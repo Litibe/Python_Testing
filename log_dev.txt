@@ -1,3 +1,5 @@
+#feature/display_board
+    Implement Points Display Board #7
 #tests/purchase_places
     - add tests for functions into server.py
 #improve/json_files
