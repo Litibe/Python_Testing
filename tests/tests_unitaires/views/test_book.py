@@ -81,7 +81,7 @@ def test_post_method_to_book_if_compt_invalid(client):
             data["club"] = club_with_places["name"]
             data["competition"] = competition_invalid['name']
             # try to book with one place but comptetition is finished
-            data['places'] = 1
+            data['places'] = 0
             url = "/purchasePlaces"
             response = client.post(url, data=data)
             assert response.status_code == 200
@@ -107,7 +107,7 @@ def test_post_method_to_book_if_compt_valid(client):
             data["club"] = club_with_places["name"]
             data["competition"] = competition_valid['name']
             # try to book with one place but comptetition is finished
-            data['places'] = 1
+            data['places'] = 0
             url = "/purchasePlaces"
             response = client.post(url, data=data)
             assert response.status_code == 200
