@@ -1,3 +1,6 @@
+#improve/json_files
+    - add test for function with json_files into server.py
+
 #fix/max_places_per_compt
     - add CONSTANTS.PY
 #BUG/booking_places_past_compt
