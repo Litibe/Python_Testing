@@ -1,7 +1,6 @@
-from http import server
 import datetime
 import pytest
-from server import create_app, load_datime_now, loadClubs, loadCompetitions, saveClubs, saveCompetitions
+from server import create_app, load_datime_now, loadClubs, loadCompetitions, saveClubs, saveCompetitions, loadBooking, saveBooking
 
 
 @pytest.fixture()
@@ -46,3 +45,28 @@ def test_save_competitions():
     if len(competitions) > 0:
         assert saveCompetitions(
             competitions[0]['name'], competitions[0]['numberOfPlaces'])
+
+
+def test_load_booking():
+    booking = loadBooking()
+    if len(booking) > 0:
+        assert isinstance(booking, list)
+
+
+def test_save_booking():
+    competitions = loadCompetitions()
+    clubs = loadClubs()
+    if len(competitions) > 0 and len(clubs) > 0:
+        competition = ""
+        club = ""
+        for competition in competitions:
+            if int(competition['numberOfPlaces']) > 0:
+                competition = competition
+        for club in clubs:
+            if int(club["points"]) > 0:
+                club = club
+        if isinstance(competition, dict) and isinstance(club, dict):
+            assert saveBooking(
+                competition_name=competition['name'],
+                club_name=club["name"],
+                placesRequired=1)

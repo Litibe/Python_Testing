@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 from flask import Flask, render_template, request, redirect, flash, url_for
 
 import CONSTANTS
@@ -28,7 +29,7 @@ def saveClubs(club_name, club_points):
             club["points"] = str(club_points)
     with open('clubs.json', "w") as file:
         json.dump({'clubs': listOfClubs}, file, indent=4)
-    return True
+        return True
 
 
 def loadCompetitions():
@@ -54,7 +55,7 @@ def saveCompetitions(competition_name, competition_numberOfPlaces):
             compt["numberOfPlaces"] = str(competition_numberOfPlaces)
     with open('competitions.json', "w") as file:
         json.dump({'competitions': listOfCompetitions}, file, indent=4)
-    return True
+        return True
 
 
 def load_datime_now():
@@ -66,6 +67,48 @@ def load_datime_now():
     now = datetime.datetime.now()
     now = now.strftime("%Y-%m-%d %H:%M:%S")
     return now
+
+
+def loadBooking():
+    '''
+    Load 'booking.json' and if not exist create it.
+
+        Returns:
+            listOfBooking
+    '''
+    if os.path.exists("booking.json"):
+        with open('booking.json') as file:
+            listOfBooking = json.load(file)['booking']
+            return listOfBooking
+    else:
+        with open('booking.json', "w") as file:
+            json.dump({'booking': []}, file, indent=4)
+            return []
+
+
+def saveBooking(competition_name, club_name, placesRequired):
+    '''
+    Save into 'booking.json', update booking for competition_name, club_name with club_places.
+
+            Parameters:
+                    competition_name (str): The Competition Nane
+                    club_name (str) : The Club Name
+                    placesRequired (int) : The number of booking places for competition
+
+            Returns:
+                    True
+    '''
+    listOfBooking = loadBooking()
+    for compt in listOfBooking:
+        if compt["name"] == competition_name:
+            if compt.get("club_name", "") != "":
+                compt["club_name"] = str(placesRequired)
+            else:
+                compt["club_name"] = str(
+                    int(compt["club_name"])+int(placesRequired))
+    with open('booking.json', "w") as file:
+        json.dump({'booking': listOfBooking}, file, indent=4)
+        return True
 
 
 def create_app(test_config=None):
@@ -91,7 +134,8 @@ def create_app(test_config=None):
         date_now = load_datime_now()
         return render_template('welcome.html',
                                club=club,
-                               competitions=competitions, date_now=date_now)
+                               competitions=competitions,
+                               date_now=date_now)
 
     @app.route('/book/<competition>/<club>')
     def book(competition, club):
@@ -99,9 +143,12 @@ def create_app(test_config=None):
         foundCompetition = [
             c for c in competitions if c['name'] == competition][0]
         date_now = load_datime_now()
-        if foundClub and foundCompetition and (date_now < foundCompetition['date']):
+        if foundClub and foundCompetition and (
+                date_now < foundCompetition['date']):
             max_places = min(
-                int(foundCompetition["numberOfPlaces"]), int(foundClub['points']))
+                int(
+                    foundCompetition["numberOfPlaces"]), int(
+                        foundClub['points']))
             if max_places > CONSTANTS.MAX_BOOKING_PLACES:
                 max_places = CONSTANTS.MAX_BOOKING_PLACES
             return render_template('booking.html',
