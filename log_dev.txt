@@ -1,3 +1,5 @@
+#tests/purchase_places
+    - add tests for functions into server.py
 #improve/json_files
     - add test for functions with json_files into server.py
 #fix/max_places_per_compt

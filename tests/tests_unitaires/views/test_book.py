@@ -38,7 +38,8 @@ def test_render_context_showSummary_clubs_details_if_compt_valid(client):
             response = client.get(url)
             assert response.status_code == 200
             assert ("Places available: " +
-                    competition_valid['numberOfPlaces']).encode() in response.data
+                    competition_valid['numberOfPlaces']
+                    ).encode() in response.data
 
 
 def test_render_context_showSummary_clubs_details_if_compt_invalid(client):
@@ -58,7 +59,9 @@ def test_render_context_showSummary_clubs_details_if_compt_invalid(client):
             url += club_name[0]+"%20"+club_name[1]
             response = client.get(url)
             assert response.status_code == 200
-            assert ("Something went wrong-please try again").encode() in response.data
+            assert (
+                "Something went wrong-please try again"
+            ).encode() in response.data
 
 
 def test_post_method_to_book_if_compt_invalid(client):
@@ -71,7 +74,8 @@ def test_post_method_to_book_if_compt_invalid(client):
             club_with_places = club
     date_now = load_datime_now()
     for competition in competitions:
-        if competition['date'] < date_now and int(competition["numberOfPlaces"]) > 0:
+        if competition['date'] < date_now and int(
+                competition["numberOfPlaces"]) > 0:
             competition_invalid = competition
             data = {}
             data["club"] = club_with_places["name"]
@@ -82,4 +86,30 @@ def test_post_method_to_book_if_compt_invalid(client):
             response = client.post(url, data=data)
             assert response.status_code == 200
             assert (
-                "Competition is finished - See the Date !").encode() in response.data
+                "Competition is finished - See the Date !"
+            ).encode() in response.data
+
+
+def test_post_method_to_book_if_compt_valid(client):
+    """
+    TEST METHOD
+    try to book with one place with comptetition valid
+    """
+    for club in clubs:
+        if int(club["points"]) > 0:
+            club_with_places = club
+    date_now = load_datime_now()
+    for competition in competitions:
+        if competition['date'] > date_now and int(
+                competition["numberOfPlaces"]) > 0:
+            competition_valid = competition
+            data = {}
+            data["club"] = club_with_places["name"]
+            data["competition"] = competition_valid['name']
+            # try to book with one place but comptetition is finished
+            data['places'] = 1
+            url = "/purchasePlaces"
+            response = client.post(url, data=data)
+            assert response.status_code == 200
+            assert (
+                "Great-booking complete!").encode() in response.data
