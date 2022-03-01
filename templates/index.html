@@ -6,11 +6,20 @@
   </head>
   <body>
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
-    Please enter your secretary email to continue:
+    <h2>Please enter your secretary email to reserve places:</h2>
     <form action="showSummary" method="post">
       <label for="email">Email:</label>
       <input type="email" name="email" required />
       <button type="submit">Enter</button>
     </form>
+    <hr />
+    <h2>Dashbord Points per Clubs :</h2>
+    {% if clubs != [] %}
+    <ul>
+      {% for club in clubs%}
+      <li>{{club["name"]}} => {{club['points']}} points availables</li>
+      {%endfor%}
+    </ul>
+    {%else%} Any Reservations {% endif %}
   </body>
 </html>
