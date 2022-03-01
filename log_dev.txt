@@ -1,3 +1,6 @@
+#fix/save_booking_0_place
+detect that test_post_method_to_book_if_compt_valid create a reservation with 0 places, 
+    necessarry to correct function into server.py
 #feature/display_public
     add dashbord without login to see clubs list with points
 #feature/display_board

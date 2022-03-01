@@ -132,9 +132,10 @@ def saveBooking(competition_name, competition_date, club_name, placesRequired):
             }
         }}
         listOfBooking.append(data)
-    with open('booking.json', "w") as file:
-        json.dump({'booking': listOfBooking}, file, indent=4)
-        return True
+    if placesRequired > 0:
+        with open('booking.json', "w") as file:
+            json.dump({'booking': listOfBooking}, file, indent=4)
+    return True
 
 
 def places_already_booking(competition_name, competition_date, club_name):
