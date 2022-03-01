@@ -1,6 +1,5 @@
 #improve/json_files
-    - add test for function with json_files into server.py
-
+    - add test for functions with json_files into server.py
 #fix/max_places_per_compt
     - add CONSTANTS.PY
 #BUG/booking_places_past_compt
@@ -14,7 +13,6 @@
             redirect to welcome.html with flash message alert
         - disabled booking page if competiton is finished
             return welcome Page with flash message 
-
 #BUG/max_12_places
     Clubs shouldn't be able to book more than 12 places per competition #4
         - update server.py
