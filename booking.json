@@ -1,3 +1,12 @@
 {
-    "booking": []
+    "booking": [
+        {
+            "2022-10-22 13:30:00": {
+                "Fall Classic": {
+                    "Iron Temple": "12",
+                    "She Lifts": "5"
+                }
+            }
+        }
+    ]
 }

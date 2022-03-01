@@ -137,6 +137,32 @@ def saveBooking(competition_name, competition_date, club_name, placesRequired):
         return True
 
 
+def places_already_booking(competition_name, competition_date, club_name):
+    '''
+        load 'booking.json' and search booking_places for date/competition_name/club_name.
+
+                Parameters:
+                        competition_name (str): The Competition Nane
+                        competition_date (format date - format : "%Y-%m-%d %H:%M:%S") 
+                        club_name (str) : The Club Name
+                Returns:
+                        places (int)
+    '''
+    listOfBooking = loadBooking()
+    places = 0
+    if len(listOfBooking) > 0:
+        for events in listOfBooking:
+            for event_date, event_values in events.items():
+                if event_date == competition_date:
+                    # search if competitio_name already into file
+                    if event_values.get(competition_name, "") != "":
+                        if event_values.get(competition_name, "").get(club_name,
+                                                                      "") != "":
+                            places = int(
+                                event_values[competition_name][club_name])
+    return places
+
+
 def create_app(test_config=None):
     app = Flask(__name__)
     app.secret_key = 'something_special'
@@ -162,7 +188,8 @@ def create_app(test_config=None):
         return render_template('welcome.html',
                                club=club,
                                competitions=competitions,
-                               date_now=date_now, booking=booking)
+                               date_now=date_now, booking=booking,
+                               max_booking_places=CONSTANTS.MAX_BOOKING_PLACES)
 
     @app.route('/book/<competition>/<club>')
     def book(competition, club):
@@ -170,26 +197,34 @@ def create_app(test_config=None):
         foundCompetition = [
             c for c in competitions if c['name'] == competition][0]
         date_now = load_datime_now()
+        booking = loadBooking()
+        already_places = places_already_booking(
+            foundCompetition["name"], foundCompetition["date"], foundClub["name"])
         if foundClub and foundCompetition and (
                 date_now < foundCompetition['date']):
             max_places = min(
                 int(
                     foundCompetition["numberOfPlaces"]), int(
-                        foundClub['points']))
+                        foundClub['points']))-already_places
             if max_places > CONSTANTS.MAX_BOOKING_PLACES:
-                max_places = CONSTANTS.MAX_BOOKING_PLACES
+                max_places = CONSTANTS.MAX_BOOKING_PLACES-already_places
+            if max_places < 0:
+                max_places = 0
             return render_template('booking.html',
                                    club=foundClub,
                                    competition=foundCompetition,
-                                   max_places=max_places)
+                                   max_places=max_places,
+                                   already_places=already_places,
+                                   max_booking_places=CONSTANTS.MAX_BOOKING_PLACES)
         else:
-            booking = loadBooking()
+
             flash("Something went wrong-please try again")
             return render_template('welcome.html',
                                    club=club,
                                    competitions=competitions,
                                    date_now=date_now,
-                                   booking=booking)
+                                   booking=booking,
+                                   max_booking_places=CONSTANTS.MAX_BOOKING_PLACES)
 
     @ app.route('/purchasePlaces', methods=['POST'])
     def purchasePlaces():
@@ -227,7 +262,8 @@ def create_app(test_config=None):
                                club=club,
                                competitions=competitions,
                                date_now=date_now,
-                               booking=booking)
+                               booking=booking,
+                               max_booking_places=CONSTANTS.MAX_BOOKING_PLACES)
 
     # TODO: Add route for points display
 

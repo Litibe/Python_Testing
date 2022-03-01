@@ -40,6 +40,7 @@
     </ul>
     {%endwith%}
     <h3>DashBord - display booking:</h3>
+    <quote>Warning ! Maximun {{max_booking_places}} places per Club per Competiton !</quote>
     {% if booking != [] %}
     <ul>
     {% for events in booking %}
