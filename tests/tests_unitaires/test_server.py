@@ -1,6 +1,6 @@
-import datetime
-import pytest
-from server import create_app, load_datime_now, loadClubs, loadCompetitions, places_already_booking, saveClubs, saveCompetitions, loadBooking, saveBooking
+from server import load_datime_now, loadClubs, loadCompetitions
+from server import places_already_booking, saveClubs, saveCompetitions
+from server import loadBooking
 
 competitions = loadCompetitions()
 clubs = loadClubs()

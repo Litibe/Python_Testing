@@ -3,7 +3,7 @@ import json
 import os
 from flask import Flask, render_template, request, redirect, flash, url_for
 
-import CONSTANTS
+from CONSTANTS import MAX_BOOKING_PLACES
 
 
 def loadClubs():
@@ -44,7 +44,8 @@ def saveCompetitions(competition_name, competition_numberOfPlaces):
 
             Parameters:
                     competition_name (str): The Competition Nane
-                    competition_numberOfPlaces (str): The Competition Places Availables
+                    competition_numberOfPlaces (str): 
+                        The Competition Places Availables
 
             Returns:
                     True
@@ -88,13 +89,16 @@ def loadBooking():
 
 def saveBooking(competition_name, competition_date, club_name, placesRequired):
     '''
-    Save into 'booking.json', update booking for competition_name, club_name with club_places.
+    Save into 'booking.json', update booking for competition_name,
+     club_name with club_places.
 
             Parameters:
                     competition_name (str): The Competition Nane
-                    competition_date (format date - format : "%Y-%m-%d %H:%M:%S") 
+                    competition_date (format date -
+                        format : "%Y-%m-%d %H:%M:%S")
                     club_name (str) : The Club Name
-                    placesRequired (int) : The number of booking places for competition
+                    placesRequired (int) :
+                        The number of booking places for competition
 
             Returns:
                     True
@@ -106,11 +110,11 @@ def saveBooking(competition_name, competition_date, club_name, placesRequired):
                 if event_date == competition_date:
                     # search if competitio_name already into file
                     if event_values.get(competition_name, "") != "":
-                        if event_values.get(competition_name, "").get(club_name,
-                                                                      "") != "":
+                        if event_values.get(
+                                competition_name, "").get(club_name, "") != "":
                             event_values[competition_name][club_name] = str(
-                                int(event_values[competition_name][club_name]) + int(
-                                    placesRequired))
+                                int(event_values[competition_name][club_name]
+                                    ) + int(placesRequired))
                         else:
                             event_values[competition_name][club_name] = str(
                                 placesRequired)
@@ -140,11 +144,13 @@ def saveBooking(competition_name, competition_date, club_name, placesRequired):
 
 def places_already_booking(competition_name, competition_date, club_name):
     '''
-        load 'booking.json' and search booking_places for date/competition_name/club_name.
+        load 'booking.json' and search booking_places
+        for date/competition_name/club_name.
 
                 Parameters:
                         competition_name (str): The Competition Nane
-                        competition_date (format date - format : "%Y-%m-%d %H:%M:%S") 
+                        competition_date (format date 
+                        - format : "%Y-%m-%d %H:%M:%S") 
                         club_name (str) : The Club Name
                 Returns:
                         places (int)
@@ -157,8 +163,8 @@ def places_already_booking(competition_name, competition_date, club_name):
                 if event_date == competition_date:
                     # search if competitio_name already into file
                     if event_values.get(competition_name, "") != "":
-                        if event_values.get(competition_name, "").get(club_name,
-                                                                      "") != "":
+                        if event_values.get(competition_name, ""
+                                            ).get(club_name, "") != "":
                             places = int(
                                 event_values[competition_name][club_name])
     return places
@@ -190,7 +196,7 @@ def create_app(test_config=None):
                                club=club,
                                competitions=competitions,
                                date_now=date_now, booking=booking,
-                               max_booking_places=CONSTANTS.MAX_BOOKING_PLACES)
+                               max_booking_places=MAX_BOOKING_PLACES)
 
     @app.route('/book/<competition>/<club>')
     def book(competition, club):
@@ -200,15 +206,17 @@ def create_app(test_config=None):
         date_now = load_datime_now()
         booking = loadBooking()
         already_places = places_already_booking(
-            foundCompetition["name"], foundCompetition["date"], foundClub["name"])
+            foundCompetition["name"],
+            foundCompetition["date"],
+            foundClub["name"])
         if foundClub and foundCompetition and (
                 date_now < foundCompetition['date']):
             max_places = min(
                 int(
                     foundCompetition["numberOfPlaces"]), int(
                         foundClub['points']))-already_places
-            if max_places > CONSTANTS.MAX_BOOKING_PLACES:
-                max_places = CONSTANTS.MAX_BOOKING_PLACES-already_places
+            if max_places > MAX_BOOKING_PLACES:
+                max_places = MAX_BOOKING_PLACES-already_places
             if max_places < 0:
                 max_places = 0
             return render_template('booking.html',
@@ -216,7 +224,7 @@ def create_app(test_config=None):
                                    competition=foundCompetition,
                                    max_places=max_places,
                                    already_places=already_places,
-                                   max_booking_places=CONSTANTS.MAX_BOOKING_PLACES)
+                                   max_booking_places=MAX_BOOKING_PLACES)
         else:
 
             flash("Something went wrong-please try again")
@@ -225,7 +233,7 @@ def create_app(test_config=None):
                                    competitions=competitions,
                                    date_now=date_now,
                                    booking=booking,
-                                   max_booking_places=CONSTANTS.MAX_BOOKING_PLACES)
+                                   max_booking_places=MAX_BOOKING_PLACES)
 
     @ app.route('/purchasePlaces', methods=['POST'])
     def purchasePlaces():
@@ -240,19 +248,19 @@ def create_app(test_config=None):
                 competition['numberOfPlaces'] = int(
                     competition['numberOfPlaces'])-placesRequired
                 club["points"] = str(int(club["points"])-placesRequired)
-                return_save_competitions = saveCompetitions(
+                save_competitions = saveCompetitions(
                     competition["name"],
                     (str(competition["numberOfPlaces"])))
-                return_save_clubs = saveClubs(
+                save_clubs = saveClubs(
                     club_name=club["name"],
                     club_points=str(club["points"]))
-                return_save_booking = saveBooking(
+                save_booking = saveBooking(
                     competition["name"],
                     competition["date"],
                     club["name"],
                     placesRequired
                 )
-                if return_save_competitions and return_save_clubs and return_save_booking:
+                if save_competitions and save_clubs and save_booking:
                     flash('Great-booking complete!')
                 else:
                     flash("Something went wrong-please try again")
@@ -264,7 +272,7 @@ def create_app(test_config=None):
                                competitions=competitions,
                                date_now=date_now,
                                booking=booking,
-                               max_booking_places=CONSTANTS.MAX_BOOKING_PLACES)
+                               max_booking_places=MAX_BOOKING_PLACES)
 
     # TODO: Add route for points display
 

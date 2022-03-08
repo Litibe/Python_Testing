@@ -21,7 +21,8 @@ def client(app):
 
 def test_request_index(client):
     response = client.get("/")
-    assert b"<h1>Welcome to the GUDLFT Registration Portal!</h1>" in response.data
+    elementhtml = "<h1>Welcome to the GUDLFT Registration Portal!</h1>"
+    assert elementhtml.encode() in response.data
     assert response.status_code == 200
 
 

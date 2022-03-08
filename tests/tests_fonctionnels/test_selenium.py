@@ -17,7 +17,9 @@ class TestUserTakesTheTest(LiveServerTestCase):
         app = create_app()
         app.config.update(
             LIVESERVER_PORT=8943,
-            DEBUG=True
+            DEBUG=True,
+            TESTING=True,
+            LIVESERVER_TIMEOUT=10,
         )
         return app
 
