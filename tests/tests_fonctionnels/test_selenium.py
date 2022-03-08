@@ -38,3 +38,4 @@ class TestUserTakesTheTest(LiveServerTestCase):
         time.sleep(1)
         self.assertEqual(r.status, 200)
         assert b"<h1>Welcome to the GUDLFT Registration Portal!</h1>" in r.data
+        assert "Dashbord Points per Clubs :".encode() in r.data
