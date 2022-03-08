@@ -7,9 +7,15 @@ from CONSTANTS import MAX_BOOKING_PLACES
 
 
 def loadClubs():
-    with open('clubs.json') as c:
-        listOfClubs = json.load(c)['clubs']
-        return listOfClubs
+    if os.path.exists('clubs.json'):
+        with open('clubs.json') as c:
+            data = json.load(c)
+            if data.get('clubs', "") != "":
+                listOfClubs = data['clubs']
+                return listOfClubs
+    with open('clubs.json', "w") as file:
+        json.dump({'clubs': []}, file, indent=4)
+        return []
 
 
 def saveClubs(club_name, club_points):
@@ -33,9 +39,15 @@ def saveClubs(club_name, club_points):
 
 
 def loadCompetitions():
-    with open('competitions.json') as comps:
-        listOfCompetitions = json.load(comps)['competitions']
-        return listOfCompetitions
+    if os.path.exists('competitions.json'):
+        with open('competitions.json') as comps:
+            data = json.load(comps)
+            if data.get('competitions', "") != "":
+                listOfCompetitions = data['competitions']
+                return listOfCompetitions
+    with open('competitions.json', "w") as file:
+        json.dump({'competitions': []}, file, indent=4)
+        return []
 
 
 def saveCompetitions(competition_name, competition_numberOfPlaces):

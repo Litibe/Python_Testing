@@ -1,6 +1,8 @@
 from server import load_datime_now, loadClubs, loadCompetitions
 from server import places_already_booking, saveClubs, saveCompetitions
 from server import loadBooking
+import json
+import os
 
 competitions = loadCompetitions()
 clubs = loadClubs()
@@ -12,6 +14,14 @@ def test_load_clubs():
     listOfClubs = loadClubs()
     assert isinstance(listOfClubs, list)
 
+    if os.path.exists('../../clubs.json'):
+        os.path.remove('../../clubs.json')
+        listOfClubs = loadClubs()
+        assert isinstance(listOfClubs, list)
+        assert listOfClubs == []
+        with open('../../clubs.json', "w") as file:
+            json.dump({'clubs': clubs}, file, indent=4)
+
 
 def test_save_clubs():
     if len(clubs) > 0:
@@ -21,6 +31,13 @@ def test_save_clubs():
 def test_load_competition():
     listOfCompetitions = loadCompetitions()
     assert isinstance(listOfCompetitions, list)
+    if os.path.exists('../../competitions.json'):
+        os.path.remove('../../competitions.json')
+        listOfCompetitions = loadCompetitions()
+        assert isinstance(listOfCompetitions, list)
+        assert listOfCompetitions == []
+        with open('../../competitions.json', "w") as file:
+            json.dump({'competitions': competitions}, file, indent=4)
 
 
 def test_save_competitions():

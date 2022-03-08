@@ -1,3 +1,5 @@
+#improve/json_files
+    - improve load json if not exist
 #fix/save_booking_0_place
 detect that test_post_method_to_book_if_compt_valid create a reservation with 0 places, 
     necessarry to correct function into server.py
