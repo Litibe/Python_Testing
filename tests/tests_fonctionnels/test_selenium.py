@@ -144,13 +144,10 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
             self.driver.find_element(
                 By.NAME, "email").send_keys(all_emails[0])
             self.driver.find_element(By.TAG_NAME, "button").click()
-            time.sleep(1)
             # seacrh book place
-            """
-            self.driver.find_element(
-                By.XPATH, '//a[2]').click()
+            self.driver.find_element(By.PARTIAL_LINK_TEXT, ("Book")).click()
             time.sleep(1)
-            http = urllib3.PoolManager()
-            r = http.request('GET', self.get_server_url())
-            assert ("Places available : ").encode() in r.data
-            """
+            self.driver.find_element(
+                By.NAME, "places").send_keys(1)
+            self.driver.find_element(By.TAG_NAME, "button").click()
+            time.sleep(1)
