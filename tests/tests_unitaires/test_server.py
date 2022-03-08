@@ -14,12 +14,12 @@ def test_load_clubs():
     listOfClubs = loadClubs()
     assert isinstance(listOfClubs, list)
 
-    if os.path.exists('../../clubs.json'):
-        os.path.remove('../../clubs.json')
+    if os.path.exists('clubs.json'):
+        os.remove('clubs.json')
         listOfClubs = loadClubs()
         assert isinstance(listOfClubs, list)
         assert listOfClubs == []
-        with open('../../clubs.json', "w") as file:
+        with open('clubs.json', "w") as file:
             json.dump({'clubs': clubs}, file, indent=4)
 
 
@@ -31,12 +31,12 @@ def test_save_clubs():
 def test_load_competition():
     listOfCompetitions = loadCompetitions()
     assert isinstance(listOfCompetitions, list)
-    if os.path.exists('../../competitions.json'):
-        os.path.remove('../../competitions.json')
+    if os.path.exists('competitions.json'):
+        os.remove('competitions.json')
         listOfCompetitions = loadCompetitions()
         assert isinstance(listOfCompetitions, list)
         assert listOfCompetitions == []
-        with open('../../competitions.json', "w") as file:
+        with open('competitions.json', "w") as file:
             json.dump({'competitions': competitions}, file, indent=4)
 
 
@@ -47,7 +47,15 @@ def test_save_competitions():
 
 
 def test_load_booking():
-    assert isinstance(booking, list)
+    listOfBooking = loadBooking()
+    assert isinstance(listOfBooking, list)
+    if os.path.exists('booking.json'):
+        os.remove('booking.json')
+        listOfBooking = loadBooking()
+        assert isinstance(listOfBooking, list)
+        assert listOfBooking == []
+        with open('booking.json', "w") as file:
+            json.dump({'booking': booking}, file, indent=4)
 
 
 def test_save_booking():

@@ -53,8 +53,8 @@
                 <ul>
                 <li>Competition : {{key}}</li>
                     <ul>
-                    {% for club, points in value.items() %}
-                        <li> Club : {{club}} =>  {{points}} Points
+                    {% for club, places in value.items() %}
+                        <li> Club : {{club}} =>  {{places}} Places
                     {% endfor %}
                     </ul>
                 </ul>
@@ -65,7 +65,7 @@
     {% endfor %}
     </ul>
     {%else%}
-    Any Club with Points
+    Any Reservations
     {% endif %}
 </body>
 </html>

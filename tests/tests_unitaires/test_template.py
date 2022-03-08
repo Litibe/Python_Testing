@@ -39,7 +39,7 @@ def test_request_incorrect_login(client):
 
 
 def test_request_correct_login(client):
-    response = response = client.get("/logout")
+    response = client.get("/logout")
     assert response.status_code == 302
 
 
