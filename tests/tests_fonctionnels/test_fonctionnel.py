@@ -11,6 +11,9 @@ def app():
     app = create_app()
     app.config.update({
         "TESTING": True,
+        "DEBUG": True,
+        "LIVESERVER_PORT": 8943,
+        "LIVESERVER_TIMEOUT": 10,
     })
     yield app
 
