@@ -3,7 +3,7 @@ import json
 import os
 from flask import Flask, render_template, request, redirect, flash, url_for
 
-from CONSTANTS import MAX_BOOKING_PLACES
+from CONSTANTS import MAX_BOOKING_PLACES, POINTS_PER_PLACE
 
 
 def loadClubs():
@@ -208,7 +208,8 @@ def create_app(test_config=None):
                                club=club,
                                competitions=competitions,
                                date_now=date_now, booking=booking,
-                               max_booking_places=MAX_BOOKING_PLACES)
+                               max_booking_places=MAX_BOOKING_PLACES,
+                               points_per_place=POINTS_PER_PLACE)
 
     @app.route('/book/<competition>/<club>')
     def book(competition, club):
@@ -223,12 +224,15 @@ def create_app(test_config=None):
             foundClub["name"])
         if foundClub and foundCompetition and (
                 date_now < foundCompetition['date']):
-            max_places = min(
+            max_places_comp = min(
                 int(
-                    foundCompetition["numberOfPlaces"]), int(
-                        foundClub['points']))-already_places
-            if max_places > MAX_BOOKING_PLACES:
-                max_places = MAX_BOOKING_PLACES-already_places
+                    foundCompetition["numberOfPlaces"]), (int(
+                        foundClub['points'])//POINTS_PER_PLACE))
+            max_places_club = int(
+                foundClub['points'])//POINTS_PER_PLACE
+            max_places = min(
+                max_places_comp, MAX_BOOKING_PLACES, max_places_club,
+                MAX_BOOKING_PLACES-already_places)
             if max_places < 0:
                 max_places = 0
             return render_template('booking.html',
@@ -236,7 +240,8 @@ def create_app(test_config=None):
                                    competition=foundCompetition,
                                    max_places=max_places,
                                    already_places=already_places,
-                                   max_booking_places=MAX_BOOKING_PLACES)
+                                   max_booking_places=MAX_BOOKING_PLACES,
+                                   points_per_place=POINTS_PER_PLACE)
         else:
 
             flash("Something went wrong-please try again")
@@ -245,7 +250,8 @@ def create_app(test_config=None):
                                    competitions=competitions,
                                    date_now=date_now,
                                    booking=booking,
-                                   max_booking_places=MAX_BOOKING_PLACES)
+                                   max_booking_places=MAX_BOOKING_PLACES,
+                                   points_per_place=POINTS_PER_PLACE)
 
     @ app.route('/purchasePlaces', methods=['POST'])
     def purchasePlaces():
@@ -284,9 +290,8 @@ def create_app(test_config=None):
                                competitions=competitions,
                                date_now=date_now,
                                booking=booking,
-                               max_booking_places=MAX_BOOKING_PLACES)
-
-    # TODO: Add route for points display
+                               max_booking_places=MAX_BOOKING_PLACES,
+                               points_per_place=POINTS_PER_PLACE)
 
     @ app.route('/logout')
     def logout():

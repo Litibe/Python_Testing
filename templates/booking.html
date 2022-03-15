@@ -5,14 +5,14 @@
     <title>Booking for {{competition['name']}} || GUDLFT</title>
   </head>
   <body>
+    <h1>Booking for {{competition['name']}} || GUDLFT</h1>
     <h2>{{competition['name']}}</h2>
-    <quote
+    <p
       >Warning ! Maximun {{max_booking_places}} places per Club per Competiton
-      !</quote
-    >
-
-    <p>Places available : {{competition['numberOfPlaces']}}  {% if already_places>0 %} with
-      {{already_places}} booking places{%endif%})
+      !</p>
+    <p>1 Place = {{points_per_place}} points, you have {{club['points']}} points</p>
+    <p>Competition Places availables : {{competition['numberOfPlaces']}}  {% if already_places>0 %} with
+      {{already_places}} booking places for your club.{%endif%}
     <form action="/purchasePlaces" method="post">
       <input type="hidden" name="club" value="{{club['name']}}" />
       <input type="hidden" name="competition" value="{{competition['name']}}" />
@@ -21,5 +21,6 @@
       <input type="number" name="places" min="0" max="{{max_places}}" />
       <button type="submit">Book</button>
     </form>
+    <button onclick="history.back()">Go Back</button>
   </body>
 </html>

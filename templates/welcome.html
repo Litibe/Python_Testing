@@ -43,7 +43,7 @@
     <hr/>
     <h3>DashBord - Reservations:</h3>
     {% if booking != [] %}
-    <quote>Warning ! Maximun {{max_booking_places}} places per Club per Competiton !</quote>
+    <p>Warning ! Maximun {{max_booking_places}} places per Club per Competiton and 1 Place = {{points_per_place}} points!</p>
 
     <ul>
     {% for events in booking %}
