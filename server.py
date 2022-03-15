@@ -281,7 +281,11 @@ def create_app(test_config=None):
                 if save_competitions and save_clubs and save_booking:
                     flash('Great-booking complete!')
                 else:
-                    flash("Something went wrong-please try again")
+                    flash(
+                        "Something went wrong-please try again")
+            else:
+                flash(
+                    "Number of places requested greater than the number of places authorized for you")
         else:
             flash("Competition is finished - See the Date !")
         booking = loadBooking()

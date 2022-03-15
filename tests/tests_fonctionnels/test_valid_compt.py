@@ -239,3 +239,48 @@ def test_post_method_to_TWO_book_if_compt_valid(client, monkeypatch):
             assert (
                 "Great-booking complete!").encode() in response.data
     erase_test_into_json_file()
+
+
+def test_post_method_to_book_if_compt_valid_but_error_places(
+        client, monkeypatch):
+    """
+    TEST METHOD
+    try to book with one place with comptetition valid but error places
+    """
+    def mockreturnclubs():
+        data = data_clubs
+        return data
+
+    def mockreturncompt():
+        data = data_competitions
+        return data
+
+    def mockreturnbooking():
+        data = data_booking
+        return data
+    monkeypatch.setattr(server_file, 'loadCompetitions', mockreturncompt)
+    monkeypatch.setattr(server_file, 'loadClubs', mockreturnclubs)
+    monkeypatch.setattr(server_file, 'loadBooking', mockreturnbooking)
+    competitions = server_file.loadCompetitions()
+    clubs = server_file.loadClubs()
+
+    for club in clubs:
+        if int(club["points"]) > 0:
+            club_with_places = club
+    date_now = load_datime_now()
+    for competition in competitions:
+        if competition['date'] > date_now and int(
+                competition["numberOfPlaces"]) > 0:
+
+            competition_valid = competition
+            print(competition)
+            data = {}
+            data["club"] = club_with_places["name"]
+            data["competition"] = competition_valid['name']
+            data['places'] = 42
+            url = "/purchasePlaces"
+            response = client.post(url, data=data)
+            assert response.status_code == 200
+            msg = "<li>Number of places requested greater than the number of places authorized for you</li>"
+            assert msg.encode() in response.data
+    erase_test_into_json_file()
