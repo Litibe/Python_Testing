@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>Summary | GUDLFT Registration</h1>
+    {% if club['name']%}
         <h2>Welcome, {{club['name']}} ({{club['email']}}) </h2><a href="{{url_for('logout')}}">Logout</a>
 
     {% with messages = get_flashed_messages()%}
@@ -67,5 +68,8 @@
     {%else%}
     Any Reservations
     {% endif %}
+{% else %}
+ <a href="{{url_for('index')}}">Please Login</a>
+{% endif %}
 </body>
 </html>
