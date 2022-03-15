@@ -1,15 +1,76 @@
+from server import create_app, loadClubs, loadCompetitions, loadBooking
+import server as server_file
 import pytest
-from server import create_app, loadClubs
+listOfClubs = loadClubs()
+listOfCompetitions = loadCompetitions()
+listOfbooking = loadBooking()
 
-clubs = loadClubs()
-all_emails = [club["email"] for club in clubs]
+
+data_clubs = [
+    {
+        "name": "Simply Lift",
+                "email": "john@simplylift.co",
+                "points": "13"
+    },
+    {
+        "name": "Iron Temple",
+                "email": "admin@irontemple.com",
+                "points": "4"
+    },
+    {
+        "name": "She Lifts",
+                "email": "kate@shelifts.co.uk",
+                "points": "12"
+    }
+]
+data_competitions = [
+    {
+        "name": "Spring Festival",
+        "date": "2020-03-27 10:00:00",
+        "numberOfPlaces": "25"
+    },
+    {
+        "name": "Fall Classic",
+        "date": "2022-10-22 13:30:00",
+        "numberOfPlaces": "13"
+    }
+]
+data_booking = [
+    {
+        "2022-10-22 13:30:00": {
+            "Fall Classic": {
+                "She Lifts": "1",
+                "Simply Lift": "1",
+                "Iron Temple": "2"
+            }
+        }
+    }
+]
 
 
 @pytest.fixture()
-def app():
+def app(monkeypatch):
+    def mockreturnclubs():
+        data = data_clubs
+        return data
+
+    def mockreturncompt():
+        data = data_competitions
+        return data
+
+    def mockreturnbooking():
+        data = data_booking
+        return data
+    monkeypatch.setattr(server_file, 'loadCompetitions', mockreturncompt)
+    monkeypatch.setattr(server_file, 'loadClubs', mockreturnclubs)
+    monkeypatch.setattr(server_file, 'loadBooking', mockreturnbooking)
+
     app = create_app()
     app.config.update({
         "TESTING": True,
+        "DEBUG": True,
+        "LIVESERVER_PORT": 8943,
+        "LIVESERVER_TIMEOUT": 10,
     })
     yield app
 
@@ -27,7 +88,7 @@ def test_request_index(client):
 
 
 def test_request_correct_login(client):
-    params = {"email": all_emails[0]}
+    params = {"email": data_clubs[0]["email"]}
     response = client.post('/showSummary', data=params)
     assert response.status_code == 200
 
@@ -38,15 +99,33 @@ def test_request_incorrect_login(client):
     assert response.status_code == 302
 
 
-def test_request_correct_login(client):
+def test_request_correct_logout(client):
     response = client.get("/logout")
     assert response.status_code == 302
 
 
 def test_render_context_showSummary_clubs_details(client):
-    clubs = loadClubs()
+    clubs = server_file.loadClubs()
     response = client.post(
         "/showSummary", data={"email":  clubs[0]['email']})
     assert response.status_code == 200
     assert ("Points available: "+clubs[0]['points']).encode() in response.data
     assert clubs[0]['email'].encode() in response.data
+
+
+def test_booking_page(client):
+    competitions = server_file.loadCompetitions()
+    clubs = server_file.loadClubs()
+    competition_name = competitions[1]["name"].split(" ")
+    club_name = clubs[0]["name"].split(" ")
+    url = "/book/" + competition_name[0] + \
+        "%20"+competition_name[1] + "/"
+    url += club_name[0]+"%20"+club_name[1]
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert competitions[1]["name"].encode() in response.data
+    test_input_club = '<input type="hidden" name="club" value="' + \
+        clubs[0]["name"]+'" />'
+    assert test_input_club.encode() in response.data
+    assert (clubs[0]['points'] + " points").encode() in response.data

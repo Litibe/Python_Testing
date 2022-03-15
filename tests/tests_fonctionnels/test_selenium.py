@@ -13,35 +13,6 @@ from server import create_app, loadClubs, loadCompetitions, loadBooking
 multiprocessing.set_start_method("fork")
 
 
-class TestRunServer(LiveServerTestCase):
-    def create_app(self):
-        app = create_app()
-        app.config.update(
-            LIVESERVER_PORT=8943,
-            DEBUG=True,
-            TESTING=True,
-            LIVESERVER_TIMEOUT=10,
-        )
-        return app
-
-    def setUp(self):
-        """Setup the test driver with Google Chrome"""
-        s = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=s)
-        self.driver.get(self.get_server_url())
-
-    def tearDown(self):
-        self.driver.quit()
-
-    def test_server_is_up_and_running(self):
-        http = urllib3.PoolManager()
-        r = http.request('GET', self.get_server_url())
-        time.sleep(1)
-        self.assertEqual(r.status, 200)
-        assert b"<h1>Welcome to the GUDLFT Registration Portal!</h1>" in r.data
-        assert "Dashbord Points per Clubs :".encode() in r.data
-
-
 class TestUserLogin(LiveServerTestCase):
     def create_app(self):
         app = create_app()
@@ -67,6 +38,11 @@ class TestUserLogin(LiveServerTestCase):
 
     def test_server_login(self):
         http = urllib3.PoolManager()
+        r = http.request('GET', self.get_server_url())
+        time.sleep(1)
+        self.assertEqual(r.status, 200)
+        assert b"<h1>Welcome to the GUDLFT Registration Portal!</h1>" in r.data
+        assert "Dashbord Points per Clubs :".encode() in r.data
         r = http.request('GET', self.get_server_url())
         time.sleep(1)
         self.assertEqual(r.status, 200)
@@ -136,7 +112,7 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
         self.assertEqual(r.status, 200)
         assert b"<h1>Welcome to the GUDLFT Registration Portal!</h1>" in r.data
         assert "Dashbord Points per Clubs :".encode() in r.data
-
+        time.sleep(3)
         # Click login with email
         clubs = loadClubs()
         if len(clubs) > 0:
@@ -146,8 +122,8 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
             self.driver.find_element(By.TAG_NAME, "button").click()
             # seacrh book place
             self.driver.find_element(By.PARTIAL_LINK_TEXT, ("Book")).click()
-            time.sleep(1)
+            time.sleep(3)
             self.driver.find_element(
                 By.NAME, "places").send_keys(1)
             self.driver.find_element(By.TAG_NAME, "button").click()
-            time.sleep(1)
+            time.sleep(3)
