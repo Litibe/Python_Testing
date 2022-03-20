@@ -1,0 +1,59 @@
+2022-03-20 17:29:12,877 - DEBUG -  load competitions.json and return competitions
+2022-03-20 17:29:12,878 - DEBUG - Load clubs.json and return listOfClubs
+2022-03-20 17:29:12,884 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2022-03-20 17:29:24,568 - INFO - 127.0.0.1 - - [20/Mar/2022 17:29:24] "[32mGET /logout HTTP/1.1[0m" 302 -
+2022-03-20 17:29:24,583 - INFO - 127.0.0.1 - - [20/Mar/2022 17:29:24] "GET / HTTP/1.1" 200 -
+2022-03-20 17:30:00,210 - DEBUG - load_datime_now OK
+2022-03-20 17:30:00,210 - DEBUG - loadBooking ok
+2022-03-20 17:30:00,222 - INFO - 127.0.0.1 - - [20/Mar/2022 17:30:00] "POST /showSummary HTTP/1.1" 200 -
+2022-03-20 17:30:41,621 - DEBUG - load_datime_now OK
+2022-03-20 17:30:41,622 - DEBUG - loadBooking ok
+2022-03-20 17:30:41,622 - DEBUG - loadBooking ok
+2022-03-20 17:30:41,622 - DEBUG - GET /book/<competition>/<club> : OK
+2022-03-20 17:30:41,626 - INFO - 127.0.0.1 - - [20/Mar/2022 17:30:41] "GET /book/Fall%20Classic/Simply%20Lift HTTP/1.1" 200 -
+2022-03-20 17:30:44,869 - DEBUG - load_datime_now OK
+2022-03-20 17:30:44,870 - DEBUG -  load competitions.json and return competitions
+2022-03-20 17:30:44,870 - DEBUG - saveCompetitions OK
+2022-03-20 17:30:44,870 - DEBUG - Load clubs.json and return listOfClubs
+2022-03-20 17:30:44,871 - DEBUG - Save clubs.json
+2022-03-20 17:30:44,871 - DEBUG - loadBooking ok
+2022-03-20 17:30:44,871 - DEBUG - saveBooking : len(listOfBooking) NULL
+2022-03-20 17:30:44,872 - DEBUG - saveBooking into booking.json
+2022-03-20 17:30:44,872 - DEBUG - POST / purchasePlaces: Great-booking complete!
+2022-03-20 17:30:44,872 - INFO - 127.0.0.1 - - [20/Mar/2022 17:30:44] "POST /purchasePlaces HTTP/1.1" 200 -
+2022-03-20 17:30:47,259 - DEBUG - load_datime_now OK
+2022-03-20 17:30:47,259 - DEBUG - loadBooking ok
+2022-03-20 17:30:47,260 - DEBUG - loadBooking ok
+2022-03-20 17:30:47,260 - DEBUG - GET /book/<competition>/<club> : OK
+2022-03-20 17:30:47,260 - INFO - 127.0.0.1 - - [20/Mar/2022 17:30:47] "GET /book/Spring%20Festival/Simply%20Lift HTTP/1.1" 200 -
+2022-03-20 17:30:49,261 - DEBUG - load_datime_now OK
+2022-03-20 17:30:49,261 - DEBUG -  load competitions.json and return competitions
+2022-03-20 17:30:49,261 - DEBUG - saveCompetitions OK
+2022-03-20 17:30:49,262 - DEBUG - Load clubs.json and return listOfClubs
+2022-03-20 17:30:49,262 - DEBUG - Save clubs.json
+2022-03-20 17:30:49,262 - DEBUG - loadBooking ok
+2022-03-20 17:30:49,262 - DEBUG - saveBooking : create new EVENT_DATE
+2022-03-20 17:30:49,262 - DEBUG - saveBooking : detect EVENT_DATE already into file
+2022-03-20 17:30:49,262 - DEBUG - saveBooking : for EVENT_DATE detect COMPETITON and CLUB UPDATE placesRequired
+2022-03-20 17:30:49,263 - DEBUG - saveBooking into booking.json
+2022-03-20 17:30:49,263 - DEBUG - POST / purchasePlaces: Great-booking complete!
+2022-03-20 17:30:49,264 - INFO - 127.0.0.1 - - [20/Mar/2022 17:30:49] "POST /purchasePlaces HTTP/1.1" 200 -
+2022-03-20 17:31:04,430 - DEBUG - load_datime_now OK
+2022-03-20 17:31:04,430 - DEBUG - loadBooking ok
+2022-03-20 17:31:04,431 - DEBUG - loadBooking ok
+2022-03-20 17:31:04,431 - DEBUG - GET /book/<competition>/<club> : OK
+2022-03-20 17:31:04,431 - INFO - 127.0.0.1 - - [20/Mar/2022 17:31:04] "GET /book/Spring%20Festival/Simply%20Lift HTTP/1.1" 200 -
+2022-03-20 17:31:11,111 - DEBUG - load_datime_now OK
+2022-03-20 17:31:11,111 - DEBUG -  load competitions.json and return competitions
+2022-03-20 17:31:11,112 - DEBUG - saveCompetitions OK
+2022-03-20 17:31:11,112 - DEBUG - Load clubs.json and return listOfClubs
+2022-03-20 17:31:11,112 - DEBUG - Save clubs.json
+2022-03-20 17:31:11,113 - DEBUG - loadBooking ok
+2022-03-20 17:31:11,113 - DEBUG - saveBooking : create new EVENT_DATE
+2022-03-20 17:31:11,113 - DEBUG - saveBooking : detect EVENT_DATE already into file
+2022-03-20 17:31:11,113 - DEBUG - saveBooking : for EVENT_DATE detect COMPETITON and CLUB UPDATE placesRequired
+2022-03-20 17:31:11,113 - DEBUG - saveBooking : detect EVENT_DATE already into file
+2022-03-20 17:31:11,113 - DEBUG - saveBooking : for EVENT_DATE detect COMPETITON and CLUB UPDATE placesRequired
+2022-03-20 17:31:11,113 - DEBUG - saveBooking into booking.json
+2022-03-20 17:31:11,114 - DEBUG - POST / purchasePlaces: Great-booking complete!
+2022-03-20 17:31:11,115 - INFO - 127.0.0.1 - - [20/Mar/2022 17:31:11] "POST /purchasePlaces HTTP/1.1" 200 -

@@ -223,7 +223,8 @@ def test_post_method_to_TWO_book_if_compt_valid(client, monkeypatch):
     date_now = load_datime_now()
     for competition in competitions:
         if competition['date'] > date_now and int(
-                competition["numberOfPlaces"]) > 0 and len(club_with_places) > 1:
+                competition["numberOfPlaces"]) > 0 and len(
+                    club_with_places) > 1:
             competition_valid = competition
             print(competition)
             data = {}
@@ -263,17 +264,16 @@ def test_post_method_to_book_if_compt_valid_but_error_places(
     monkeypatch.setattr(server_file, 'loadBooking', mockreturnbooking)
     competitions = server_file.loadCompetitions()
     clubs = server_file.loadClubs()
-
+    club_with_places = ""
     for club in clubs:
         if int(club["points"]) > 0:
             club_with_places = club
     date_now = load_datime_now()
     for competition in competitions:
         if competition['date'] > date_now and int(
-                competition["numberOfPlaces"]) > 0:
+                competition["numberOfPlaces"]) > 0 and club_with_places != "":
 
             competition_valid = competition
-            print(competition)
             data = {}
             data["club"] = club_with_places["name"]
             data["competition"] = competition_valid['name']
