@@ -1,9 +1,9 @@
-from server import create_app, loadClubs, loadCompetitions, loadBooking
+from server import create_app, load_clubs, load_compt, load_booking
 import server as server_file
 import pytest
-listOfClubs = loadClubs()
-listOfCompetitions = loadCompetitions()
-listOfbooking = loadBooking()
+list_clubs = load_clubs()
+list_compt = load_compt()
+list_booking = load_booking()
 
 
 data_clubs = [
@@ -61,9 +61,9 @@ def app(monkeypatch):
     def mockreturnbooking():
         data = data_booking
         return data
-    monkeypatch.setattr(server_file, 'loadCompetitions', mockreturncompt)
-    monkeypatch.setattr(server_file, 'loadClubs', mockreturnclubs)
-    monkeypatch.setattr(server_file, 'loadBooking', mockreturnbooking)
+    monkeypatch.setattr(server_file, 'load_compt', mockreturncompt)
+    monkeypatch.setattr(server_file, 'load_clubs', mockreturnclubs)
+    monkeypatch.setattr(server_file, 'load_booking', mockreturnbooking)
 
     app = create_app()
     app.config.update({
@@ -105,7 +105,7 @@ def test_request_correct_logout(client):
 
 
 def test_render_context_showSummary_clubs_details(client):
-    clubs = server_file.loadClubs()
+    clubs = server_file.load_clubs()
     response = client.post(
         "/showSummary", data={"email":  clubs[0]['email']})
     assert response.status_code == 200
@@ -114,12 +114,12 @@ def test_render_context_showSummary_clubs_details(client):
 
 
 def test_booking_page(client):
-    competitions = server_file.loadCompetitions()
-    clubs = server_file.loadClubs()
-    competition_name = competitions[1]["name"].split(" ")
+    competitions = server_file.load_compt()
+    clubs = server_file.load_clubs()
+    compt_name = competitions[1]["name"].split(" ")
     club_name = clubs[0]["name"].split(" ")
-    url = "/book/" + competition_name[0] + \
-        "%20"+competition_name[1] + "/"
+    url = "/book/" + compt_name[0] + \
+        "%20"+compt_name[1] + "/"
     url += club_name[0]+"%20"+club_name[1]
     response = client.get(url)
 

@@ -1,59 +1,59 @@
-from server import load_datime_now, loadClubs, loadCompetitions
-from server import places_already_booking, saveClubs, saveCompetitions
-from server import loadBooking
+from server import load_datime_now, load_clubs, load_compt
+from server import places_already_booking, save_clubs, save_compt
+from server import load_booking
 import json
 import os
 
-competitions = loadCompetitions()
-clubs = loadClubs()
+competitions = load_compt()
+clubs = load_clubs()
 date_now = load_datime_now()
-booking = loadBooking()
+booking = load_booking()
 
 
 def test_load_clubs():
-    listOfClubs = loadClubs()
-    assert isinstance(listOfClubs, list)
+    list_clubs = load_clubs()
+    assert isinstance(list_clubs, list)
 
     if os.path.exists('clubs.json'):
         os.remove('clubs.json')
-        listOfClubs = loadClubs()
-        assert isinstance(listOfClubs, list)
-        assert listOfClubs == []
+        list_clubs = load_clubs()
+        assert isinstance(list_clubs, list)
+        assert list_clubs == []
         with open('clubs.json', "w") as file:
             json.dump({'clubs': clubs}, file, indent=4)
 
 
 def test_save_clubs():
     if len(clubs) > 0:
-        assert saveClubs(clubs[0]['name'], clubs[0]['points'])
+        assert save_clubs(clubs[0]['name'], clubs[0]['points'])
 
 
 def test_load_competition():
-    listOfCompetitions = loadCompetitions()
-    assert isinstance(listOfCompetitions, list)
+    list_compt = load_compt()
+    assert isinstance(list_compt, list)
     if os.path.exists('competitions.json'):
         os.remove('competitions.json')
-        listOfCompetitions = loadCompetitions()
-        assert isinstance(listOfCompetitions, list)
-        assert listOfCompetitions == []
+        list_compt = load_compt()
+        assert isinstance(list_compt, list)
+        assert list_compt == []
         with open('competitions.json', "w") as file:
             json.dump({'competitions': competitions}, file, indent=4)
 
 
 def test_save_competitions():
     if len(competitions) > 0:
-        assert saveCompetitions(
+        assert save_compt(
             competitions[0]['name'], competitions[0]['numberOfPlaces'])
 
 
 def test_load_booking():
-    listOfBooking = loadBooking()
-    assert isinstance(listOfBooking, list)
+    list_booking = load_booking()
+    assert isinstance(list_booking, list)
     if os.path.exists('booking.json'):
         os.remove('booking.json')
-        listOfBooking = loadBooking()
-        assert isinstance(listOfBooking, list)
-        assert listOfBooking == []
+        list_booking = load_booking()
+        assert isinstance(list_booking, list)
+        assert list_booking == []
         with open('booking.json', "w") as file:
             json.dump({'booking': booking}, file, indent=4)
 

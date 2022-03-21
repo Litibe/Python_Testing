@@ -8,7 +8,7 @@ import json
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
 import urllib3
-from server import create_app, loadClubs, loadCompetitions, loadBooking
+from server import create_app, load_clubs, load_compt, load_booking
 
 multiprocessing.set_start_method("fork")
 
@@ -29,9 +29,9 @@ class TestUserLogin(LiveServerTestCase):
         s = Service(ChromeDriverManager().install())
         self.driver = webdriver.Chrome(service=s)
         self.driver.get(self.get_server_url())
-        self.listOfClubs = loadClubs()
-        self.listOfCompetitions = loadCompetitions()
-        self.listOfBooking = loadBooking()
+        self.list_clubs = load_clubs()
+        self.list_compt = load_compt()
+        self.list_booking = load_booking()
 
     def tearDown(self):
         self.driver.quit()
@@ -46,7 +46,7 @@ class TestUserLogin(LiveServerTestCase):
         r = http.request('GET', self.get_server_url())
 
         # Click login with email
-        clubs = loadClubs()
+        clubs = load_clubs()
         if len(clubs) > 0:
             all_emails = [club["email"] for club in clubs]
             self.driver.find_element(
@@ -57,8 +57,8 @@ class TestUserLogin(LiveServerTestCase):
 
 class TestBookingWithValidCompetition(LiveServerTestCase):
     def create_app(self):
-        self.listOfClubs = loadClubs()
-        self.listOfCompetitions = loadCompetitions()
+        self.list_clubs = load_clubs()
+        self.list_compt = load_compt()
         with open('competitions.json', "w") as file:
             json.dump({
                 "competitions": [
@@ -75,7 +75,7 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
                 ]
             },
                 file, indent=4)
-        self.listOfBooking = loadBooking()
+        self.list_booking = load_booking()
 
         app = create_app()
         app.config.update(
@@ -94,12 +94,12 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
 
     def tearDown(self):
         with open('clubs.json', "w") as file:
-            json.dump({'clubs': self.listOfClubs}, file, indent=4)
+            json.dump({'clubs': self.list_clubs}, file, indent=4)
         with open('competitions.json', "w") as file:
-            json.dump({'competitions': self.listOfCompetitions},
+            json.dump({'competitions': self.list_compt},
                       file, indent=4)
         with open('booking.json', "w") as file:
-            json.dump({'booking': self.listOfBooking}, file, indent=4)
+            json.dump({'booking': self.list_booking}, file, indent=4)
         self.driver.quit()
 
     def test_server_login_and_booking(self):
@@ -110,7 +110,7 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
         assert "Dashbord Points per Clubs :".encode() in r.data
         time.sleep(3)
         # Click login with email
-        clubs = loadClubs()
+        clubs = load_clubs()
         if len(clubs) > 0:
             all_emails = [club["email"] for club in clubs]
             self.driver.find_element(

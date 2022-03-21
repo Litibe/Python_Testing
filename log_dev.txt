@@ -1,3 +1,6 @@
+#fix/convention
+    - convention_name_file : snake_case (camelCase only for JsonFile)
+    - PEP8
 #feature/placepoint
     - 3 points = 1 place
     add into constants.py file and control max places per club points into server.py

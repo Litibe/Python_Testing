@@ -2,15 +2,15 @@ import json
 import time
 from random import randint
 from locust import HttpUser, task
-from server import loadClubs, loadCompetitions, loadBooking, load_datime_now
+from server import load_clubs, load_compt, load_booking, load_datime_now
 import CONSTANTS
-listOfClubs = loadClubs()
-listOfCompetitions = loadCompetitions()
-listOfbooking = loadBooking()
+list_clubs = load_clubs()
+list_compt = load_compt()
+list_booking = load_booking()
 
 
 def search_club_available():
-    clubs = loadClubs()
+    clubs = load_clubs()
     for club in clubs:
         if int(club["points"]) >= CONSTANTS.POINTS_PER_PLACE:
             return club
@@ -18,7 +18,7 @@ def search_club_available():
 
 
 def search_competiton_available():
-    competitions = loadCompetitions()
+    competitions = load_compt()
     date_now = load_datime_now()
     competitions_valid = []
     for competition in competitions:
@@ -37,20 +37,20 @@ class ServerPerfTest(HttpUser):
 
     @task()
     def login(self):
-        clubs = loadClubs()
-        params = {"email": listOfClubs[randint(
+        clubs = load_clubs()
+        params = {"email": list_clubs[randint(
             0, len(clubs)-1)]["email"]}
         self.client.post('/showSummary', data=params)
 
     @task()
     def show_booking_page(self):
         competition_valid = search_competiton_available()
-        clubs = loadClubs()
+        clubs = load_clubs()
         club_name = clubs[randint(0, len(clubs)-1)]["name"].split(" ")
         if competition_valid != "":
-            competition_name = competition_valid["name"].split(" ")
-            url = "/book/" + competition_name[0] + \
-                "%20"+competition_name[1] + "/"
+            compt_name = competition_valid["name"].split(" ")
+            url = "/book/" + compt_name[0] + \
+                "%20"+compt_name[1] + "/"
             url += club_name[0]+"%20"+club_name[1]
             self.client.get(url)
 
