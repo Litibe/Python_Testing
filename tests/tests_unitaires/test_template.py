@@ -98,6 +98,11 @@ def test_request_incorrect_login(client):
     response = client.post('/showSummary', data=params)
     assert response.status_code == 302
 
+def test_request_incorrect_login_form(client):
+    params = {"email": ""}
+    response = client.post('/showSummary', data=params)
+    assert response.status_code == 302
+
 
 def test_request_correct_logout(client):
     response = client.get("/logout")
@@ -113,7 +118,7 @@ def test_render_context_showSummary_clubs_details(client):
     assert clubs[0]['email'].encode() in response.data
 
 
-def test_booking_page(client):
+def test_booking_page_valid_compt_club(client):
     competitions = server_file.load_compt()
     clubs = server_file.load_clubs()
     compt_name = competitions[1]["name"].split(" ")
@@ -129,3 +134,26 @@ def test_booking_page(client):
         clubs[0]["name"]+'" />'
     assert test_input_club.encode() in response.data
     assert (clubs[0]['points'] + " points").encode() in response.data
+
+def test_booking_page_valid_club_invalid_compt(client):
+    competitions = {"name" : 'Miami Week'}
+    clubs = server_file.load_clubs()
+    compt_name = competitions["name"].split(" ")
+    club_name = clubs[0]["name"].split(" ")
+    url = "/book/" + compt_name[0] + \
+        "%20"+compt_name[1] + "/"
+    url += club_name[0]+"%20"+club_name[1]
+    response = client.get(url)
+
+    assert response.status_code == 302
+
+def test_booking_page_invalid_compt_club(client):
+    competitions = "MIAMI"
+    clubs = "TOTO CLUB"
+    club_name = clubs.split(" ")
+    url = "/book/" + competitions+ "/"
+    url += club_name[0]+"%20"+club_name[1]
+    response = client.get(url)
+
+    assert response.status_code == 302
+    

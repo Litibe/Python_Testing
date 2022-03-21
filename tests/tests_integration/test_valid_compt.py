@@ -241,6 +241,53 @@ def test_post_method_to_TWO_book_if_compt_valid(client, monkeypatch):
                 "Great-booking complete!").encode() in response.data
     erase_test_into_json_file()
 
+def test_post_method_to_TWO_book_with_2_compt_valid(client, monkeypatch):
+    """
+    TEST METHOD
+    try to book with one place with comptetition valid X2
+    """
+    def mockreturnclubs():
+        data = data_clubs
+        return data
+
+    def mockreturncompt():
+        data = data_competitions
+        return data
+
+    def mockreturnbooking():
+        data = data_booking
+        return data
+    monkeypatch.setattr(server_file, 'load_compt', mockreturncompt)
+    monkeypatch.setattr(server_file, 'load_clubs', mockreturnclubs)
+    monkeypatch.setattr(server_file, 'load_booking', mockreturnbooking)
+    competitions = server_file.load_compt()
+    clubs = server_file.load_clubs()
+    club_with_places = []
+    for club in clubs:
+        if int(club["points"]) > 0:
+            club_with_places.append(club)
+    date_now = load_datime_now()
+    for competition in competitions:
+        if competition['date'] > date_now and int(
+                competition["numberOfPlaces"]) > 0 and len(
+                    club_with_places) > 1:
+            competition_valid = competition
+            print(competition)
+            data = {}
+            data["club"] = club_with_places[0]["name"]
+            data["competition"] = competition_valid['name']
+            data['places'] = 1
+            url = "/purchasePlaces"
+            response = client.post(url, data=data)
+            data["club"] = club_with_places[0]["name"]
+            response = client.post(url, data=data)
+            data["club"] = club_with_places[1]["name"]
+            response = client.post(url, data=data)
+            assert response.status_code == 200
+            assert (
+                "Great-booking complete!").encode() in response.data
+    erase_test_into_json_file()
+
 
 def test_post_method_to_book_if_compt_valid_but_error_places(
         client, monkeypatch):

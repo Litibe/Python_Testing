@@ -169,3 +169,112 @@ def test_post_method_to_book_if_compt_invalid(client, monkeypatch):
             ).encode() in response.data
             print("Competition is finished - See the Date !")
     erase_test_into_json_file()
+
+def test_post_method_to_book_if_compt_none(client, monkeypatch):
+    """
+    TEST METHOD
+    try to book with one place but comptetition is finished
+    """
+    def mockreturnclubs():
+        data = data_clubs
+        return data
+
+    def mockreturncompt():
+        data = []
+        return data
+
+    def mockreturnbooking():
+        data = data_booking
+        return data
+    monkeypatch.setattr(server_file, 'load_compt', mockreturncompt)
+    monkeypatch.setattr(server_file, 'load_clubs', mockreturnclubs)
+    monkeypatch.setattr(server_file, 'load_booking', mockreturnbooking)
+    competitions = server_file.load_compt()
+    clubs = server_file.load_clubs()
+    for club in clubs:
+        if int(club["points"]) > 0:
+            club_with_places = club
+    date_now = load_datime_now()
+    for competition in competitions:
+        if competition['date'] < date_now and int(
+                competition["numberOfPlaces"]) > 0:
+            competition_invalid = competition
+            print(competition)
+            data = {}
+            data["club"] = club_with_places["name"]
+            data["competition"] = competition_invalid['name']
+            # try to book with one place but comptetition is finished
+            data['places'] = 1
+            url = "/purchasePlaces"
+            response = client.post(url, data=data)
+            assert response.status_code == 200
+            assert (
+                "Competition is finished - See the Date !"
+            ).encode() in response.data
+            print("Competition is finished - See the Date !")
+    erase_test_into_json_file()
+
+def test_post_method_to_book_if_clubs_none(client, monkeypatch):
+    """
+    TEST METHOD
+    try to book with one place but comptetition is finished
+    """
+    def mockreturnclubs():
+        data = []
+        return data
+
+    def mockreturncompt():
+        data = data_competitions
+        return data
+
+    def mockreturnbooking():
+        data = data_booking
+        return data
+    monkeypatch.setattr(server_file, 'load_compt', mockreturncompt)
+    monkeypatch.setattr(server_file, 'load_clubs', mockreturnclubs)
+    monkeypatch.setattr(server_file, 'load_booking', mockreturnbooking)
+    competitions = server_file.load_compt()
+    date_now = load_datime_now()
+    for competition in competitions:
+        if competition['date'] < date_now and int(
+                competition["numberOfPlaces"]) > 0:
+            competition_invalid = competition
+            print(competition)
+            data = {}
+            data["club"] = "none"
+            data["competition"] = competition_invalid['name']
+            # try to book with one place but comptetition is finished
+            data['places'] = 1
+            url = "/purchasePlaces"
+            response = client.post(url, data=data)
+            assert response.status_code == 200
+
+    erase_test_into_json_file()
+
+def test_post_method_to_book_if_clubs_compt_none(client, monkeypatch):
+    """
+    TEST METHOD
+    try to book with one place but comptetition is finished
+    """
+    def mockreturnclubs():
+        data = []
+        return data
+
+    def mockreturncompt():
+        data = []
+        return data
+
+    def mockreturnbooking():
+        data = data_booking
+        return data
+    monkeypatch.setattr(server_file, 'load_compt', mockreturncompt)
+    monkeypatch.setattr(server_file, 'load_clubs', mockreturnclubs)
+    monkeypatch.setattr(server_file, 'load_booking', mockreturnbooking)
+    data = {}
+    data["club"] = "none"
+    data["competition"] = "none"
+    data['places'] = 1
+    url = "/purchasePlaces"
+    response = client.post(url, data=data)
+    assert response.status_code == 200
+    erase_test_into_json_file()

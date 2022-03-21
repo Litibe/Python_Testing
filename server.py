@@ -311,7 +311,7 @@ def create_app(test_config=None):
         date_now = load_datime_now()
         competition = [c for c in competitions if c['name']
                        == request.form['competition']]
-        if competition == []:
+        if competition == [] or request.form['competition'] == "none":
             flash(
                 "Something went wrong-please try again")
             logging.error(
@@ -320,7 +320,7 @@ def create_app(test_config=None):
         else:
             competition = competition[0]
         club = [c for c in clubs if c['name'] == request.form['club']]
-        if club == []:
+        if club == [] or request.form['club'] == "none" :
             flash(
                 "Something went wrong-please try again")
             logging.error("POST /purchasePlaces : club_name not in json_file")
@@ -328,10 +328,12 @@ def create_app(test_config=None):
         else:
             club = club[0]
         places_buy = int(request.form['places'])
-
-        if date_now > competition['date']:
-            flash("Competition is finished - See the Date !")
-            logging.error("POST /purchasePlaces : Competition is finished")
+        try : 
+            if date_now > competition['date']:
+                flash("Competition is finished - See the Date !")
+                logging.error("POST /purchasePlaces : Competition is finished")
+        except TypeError : 
+            logging.error("POST /purchasePlaces : competition date pb")
         if competition != "" and club != "" and \
                 places_buy > 0 and date_now < competition['date']:
             if int(competition['numberOfPlaces']) >= places_buy:

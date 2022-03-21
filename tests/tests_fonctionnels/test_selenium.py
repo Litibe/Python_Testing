@@ -71,6 +71,11 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
                         "name": "Fall Classic",
                         "date": "2022-10-22 13:30:00",
                         "numberOfPlaces": "13"
+                    },
+                    {
+                        "name": "Festival Forest",
+                        "date": "2022-10-22 13:30:00",
+                        "numberOfPlaces": "19"
                     }
                 ]
             },
@@ -108,7 +113,7 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
         self.assertEqual(r.status, 200)
         assert b"<h1>Welcome to the GUDLFT Registration Portal!</h1>" in r.data
         assert "Dashbord Points per Clubs :".encode() in r.data
-        time.sleep(3)
+        time.sleep(2)
         # Click login with email
         clubs = load_clubs()
         if len(clubs) > 0:
@@ -118,8 +123,11 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
             self.driver.find_element(By.TAG_NAME, "button").click()
             # seacrh book place
             self.driver.find_element(By.PARTIAL_LINK_TEXT, ("Book")).click()
-            time.sleep(3)
+            time.sleep(2)
             self.driver.find_element(
                 By.NAME, "places").send_keys(1)
             self.driver.find_element(By.TAG_NAME, "button").click()
-            time.sleep(3)
+            # seacrh book place
+            self.driver.find_element(By.PARTIAL_LINK_TEXT, ("Book")).click()
+            time.sleep(2)
+            
