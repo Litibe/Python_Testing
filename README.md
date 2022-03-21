@@ -30,7 +30,7 @@
 
    - Flask requires that you set an environmental variable to the python file. However you do that, you'll want to set the file to be <code>server.py</code>. Check [here](https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application) for more details
 
-   - You should now be ready to test the application. In the directory, type either <code>export FLASK_APP=server </code> <code>flask run</code> or <code>python -m flask run</code>. The app should respond with an address you should be able to go to using your browser.
+   - You should now be ready to test the application. In the directory, type either <code>export FLASK_APP=server </code> and after <code>flask run</code> or <code>python -m flask run</code>. The app should respond with an address you should be able to go to using your browser. defaut: [http://127.0.0.1:5000](http://127.0.0.1:5000])
 
 4. Current Setup
 
@@ -38,10 +38,22 @@
 
    - competitions.json - list of competitions
    - clubs.json - list of clubs with relevant information. You can look here to see what email addresses the app will accept for login.
+   - booking.json - list of booking places by clubs for differentes dates/competitions.
 
 5. Testing
 
-   You are free to use whatever testing framework you like-the main thing is that you can show what tests you are using.
+   The test framework used is pytest for unit and integration tests as well as the [Selenium](https://selenium-python.readthedocs.io)  framework for functional tests.
+   The [coverage](https://coverage.readthedocs.io/en/6.3.2/) framework is installed to know the coverage of the code under test with settings_file "setup.cfg".
 
-   We also like to show how well we're testing, so there's a module called
-   [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
+   To run Pytest with tested code coverage: 
+   <code>pytest --cov -v</code>
+
+   To run Pytest with export report coverage HTML :
+   <code>pytest --cov --cov-report html</code>
+
+6. Perform
+
+   The Locust framework has been configured to simulate reservations on the Flask application (6 users)
+   <code></code>
+
+   
