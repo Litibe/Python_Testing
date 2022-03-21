@@ -6,3 +6,4 @@ lib
 __pycache__
 env/
 launch.txt
+debug_app.log
