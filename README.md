@@ -59,6 +59,9 @@
    - clubs.json - list of clubs with relevant information. You can look here to see what email addresses the app will accept for login.
    - booking.json - list of booking places by clubs for differentes dates/competitions.
 
+   Differents branchs are created to develop app. The branch name of main develop is "develop", inside there is "log_dev.txt" to check improve app with differents branchs.
+   "QA" Branch is Quality Assurance, code finished before release code.
+
 
 5. Testing
 
