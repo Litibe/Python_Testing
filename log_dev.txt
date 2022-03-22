@@ -1,0 +1,56 @@
+#fix/convention
+    - convention_name_file : snake_case (camelCase only for JsonFile)
+    - PEP8
+#feature/placepoint
+    - 3 points = 1 place
+    add into constants.py file and control max places per club points into server.py
+#improve/json_files
+    - improve load json if not exist
+#fix/save_booking_0_place
+detect that test_post_method_to_book_if_compt_valid create a reservation with 0 places, 
+    necessarry to correct function into server.py
+#feature/display_public
+    add dashbord without login to see clubs list with points
+#feature/display_board
+    Implement Points Display Board #7
+    - add tests
+    - add booking.json to control Reservations
+    - modify template
+    - create function to load, save, extract into booking.json
+    - max places per competition controled with places already reserved
+#tests/purchase_places
+    - add tests for functions into server.py
+#improve/json_files
+    - add test for functions with json_files into server.py
+#fix/max_places_per_compt
+    - add CONSTANTS.PY
+#BUG/booking_places_past_compt
+    Booking places in past competitions #5
+    =>  They should not be able to book a place on a post-dated competition 
+        (but past competitions should be visible). 
+        - update server.py to detect date_now
+        - update template welcome to compare compt["date"] 
+            with date_now to enable or not the booking link for competition.
+        - if method POST url('/purchasePlaces')
+            redirect to welcome.html with flash message alert
+        - disabled booking page if competiton is finished
+            return welcome Page with flash message 
+#BUG/max_12_places
+    Clubs shouldn't be able to book more than 12 places per competition #4
+        - update server.py
+#BUG/purchasePlaces
+    Clubs should not be able to use more than their points allowed #2
+        - update template with club max points 
+        - create funtions to save update points and place into json files
+            => BUG: Point updates are not reflected #6 ok
+        - max places = min between competition available place and club points
+#BUG/available_points
+    - update template to see Points available after login
+#BUG/DIRECTORY
+    - improve architecture to respect Flask's architecture environment 
+    - create tests/template/test_index
+#ERROR/INPUT_EMAIL
+    - Entering a unknown email crashes the app #ISSUE1
+        - improve template with required email 
+        - modify showSummary()
+        - create tests/template/test_login

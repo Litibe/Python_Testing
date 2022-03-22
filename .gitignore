@@ -2,7 +2,10 @@ bin
 include
 lib
 .Python
-tests/
 .envrc
 __pycache__
 env/
+launch.txt
+debug_app.log
+debug_app.log
+debug_app.log

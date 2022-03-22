@@ -1,16 +1,25 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GUDLFT Registration</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
-    Please enter your secretary email to continue:
+    <h2>Please enter your secretary email to reserve places:</h2>
     <form action="showSummary" method="post">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id=""/>
-        <button type="submit">Enter</button>
+      <label for="email">Email:</label>
+      <input type="email" name="email" required />
+      <button type="submit">Enter</button>
     </form>
-</body>
+    <hr />
+    <h2>Dashbord Points per Clubs :</h2>
+    {% if clubs != [] %}
+    <ul>
+      {% for club in clubs%}
+      <li>{{club["name"]}} => {{club['points']}} points availables</li>
+      {%endfor%}
+    </ul>
+    {%else%} Any Clubs into Database {% endif %}
+  </body>
 </html>
