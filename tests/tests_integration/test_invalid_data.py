@@ -170,6 +170,7 @@ def test_post_method_to_book_if_compt_invalid(client, monkeypatch):
             print("Competition is finished - See the Date !")
     erase_test_into_json_file()
 
+
 def test_post_method_to_book_if_compt_none(client, monkeypatch):
     """
     TEST METHOD
@@ -214,6 +215,7 @@ def test_post_method_to_book_if_compt_none(client, monkeypatch):
             print("Competition is finished - See the Date !")
     erase_test_into_json_file()
 
+
 def test_post_method_to_book_if_clubs_none(client, monkeypatch):
     """
     TEST METHOD
@@ -250,6 +252,7 @@ def test_post_method_to_book_if_clubs_none(client, monkeypatch):
             assert response.status_code == 200
 
     erase_test_into_json_file()
+
 
 def test_post_method_to_book_if_clubs_compt_none(client, monkeypatch):
     """

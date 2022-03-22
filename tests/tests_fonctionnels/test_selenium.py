@@ -130,4 +130,3 @@ class TestBookingWithValidCompetition(LiveServerTestCase):
             # seacrh book place
             self.driver.find_element(By.PARTIAL_LINK_TEXT, ("Book")).click()
             time.sleep(2)
-            

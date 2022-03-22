@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 from CONSTANTS import MAX_BOOKING_PLACES, POINTS_PER_PLACE
 
 logging.basicConfig(level=logging.DEBUG,
-                    filename=f"debug_app.log",
+                    filename="debug_app.log",
                     filemode="w",
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -320,7 +320,7 @@ def create_app(test_config=None):
         else:
             competition = competition[0]
         club = [c for c in clubs if c['name'] == request.form['club']]
-        if club == [] or request.form['club'] == "none" :
+        if club == [] or request.form['club'] == "none":
             flash(
                 "Something went wrong-please try again")
             logging.error("POST /purchasePlaces : club_name not in json_file")
@@ -328,11 +328,11 @@ def create_app(test_config=None):
         else:
             club = club[0]
         places_buy = int(request.form['places'])
-        try : 
+        try:
             if date_now > competition['date']:
                 flash("Competition is finished - See the Date !")
                 logging.error("POST /purchasePlaces : Competition is finished")
-        except TypeError : 
+        except TypeError:
             logging.error("POST /purchasePlaces : competition date pb")
         if competition != "" and club != "" and \
                 places_buy > 0 and date_now < competition['date']:

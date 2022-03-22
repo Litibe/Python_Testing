@@ -1,5 +1,3 @@
-import json
-import time
 from random import randint
 from locust import HttpUser, task
 from server import load_clubs, load_compt, load_booking, load_datime_now

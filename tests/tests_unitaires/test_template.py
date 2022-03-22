@@ -84,7 +84,6 @@ def test_request_index(client):
     response = client.get("/")
     elementhtml = "<h1>Welcome to the GUDLFT Registration Portal!</h1>"
     assert elementhtml.encode() in response.data
-    #detection tableau page de connexion
     elementhtml = data_clubs[0]['name']
     assert elementhtml.encode() in response.data
     elementhtml = data_clubs[1]['name']
@@ -104,6 +103,7 @@ def test_request_incorrect_login(client):
     params = {"email": "test@test.fr"}
     response = client.post('/showSummary', data=params)
     assert response.status_code == 302
+
 
 def test_request_incorrect_login_form(client):
     params = {"email": ""}
@@ -142,8 +142,9 @@ def test_booking_page_valid_compt_club(client):
     assert test_input_club.encode() in response.data
     assert (clubs[0]['points'] + " points").encode() in response.data
 
+
 def test_booking_page_valid_club_invalid_compt(client):
-    competitions = {"name" : 'Miami Week'}
+    competitions = {"name": 'Miami Week'}
     clubs = server_file.load_clubs()
     compt_name = competitions["name"].split(" ")
     club_name = clubs[0]["name"].split(" ")
@@ -151,15 +152,14 @@ def test_booking_page_valid_club_invalid_compt(client):
         "%20"+compt_name[1] + "/"
     url += club_name[0]+"%20"+club_name[1]
     response = client.get(url)
-
     assert response.status_code == 302
+
 
 def test_booking_page_invalid_compt_club(client):
     competitions = "MIAMI"
     clubs = "TOTO CLUB"
     club_name = clubs.split(" ")
-    url = "/book/" + competitions+ "/"
+    url = "/book/" + competitions + "/"
     url += club_name[0]+"%20"+club_name[1]
     response = client.get(url)
     assert response.status_code == 302
-    

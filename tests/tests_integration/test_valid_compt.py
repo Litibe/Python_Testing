@@ -241,6 +241,7 @@ def test_post_method_to_TWO_book_if_compt_valid(client, monkeypatch):
                 "Great-booking complete!").encode() in response.data
     erase_test_into_json_file()
 
+
 def test_post_method_to_TWO_book_with_2_compt_valid(client, monkeypatch):
     """
     TEST METHOD
