@@ -8,7 +8,9 @@
 
    This project uses the following technologies:
 
-   - Python v3.x+
+   - [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+   [![Python badge](https://img.shields.io/badge/Python->=3.7-blue.svg)](https://www.python.org/)
+
 
    - [Flask](https://flask.palletsprojects.com/en/1.1.x/)
 
@@ -20,10 +22,7 @@
 
      Before you begin, please ensure you have this installed globally.
 
-   - Convention Name
-      For JsonFile => camelCase
-      For Python => snake_case
-   - Convention Language Python : PEP8
+
 
 3. Installation
 
@@ -31,11 +30,26 @@
 
    - Next, type <code>source bin/activate</code>. You should see that your command prompt has changed to the name of the folder. This means that you can install packages in here without affecting affecting files outside. To deactivate, type <code>deactivate</code>
 
-   - Rather than hunting around for the packages you need, you can install in one step. Type <code>pip install -r requirements.txt</code>. This will install all the packages listed in the respective file. If you install a package, make sure others know by updating the requirements.txt file. An easy way to do this is <code>pip freeze > requirements.txt</code>
+   - Rather than hunting around for the packages you need, you can install in one step. Type 
+      ```
+      pip install -r requirements.txt
+      ```
+      This will install all the packages listed in the respective file. If you install a package, make sure others know by updating the requirements.txt file. An easy way to do this is 
+         ```
+         pip freeze > requirements.txt
+         ```
 
    - Flask requires that you set an environmental variable to the python file. However you do that, you'll want to set the file to be <code>server.py</code>. Check [here](https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application) for more details
 
-   - You should now be ready to test the application. In the directory, type either <code>export FLASK_APP=server </code> and after <code>flask run</code> or <code>python -m flask run</code>. The app should respond with an address you should be able to go to using your browser. defaut: [http://127.0.0.1:5000](http://127.0.0.1:5000])
+   - You should now be ready to test the application. In the directory, type either 
+      ```
+      export FLASK_APP=server
+      ```
+      and after 
+      ```
+      flask run
+      ```
+      or <code>python -m flask run</code>. The app should respond with an address you should be able to go to using your browser. defaut: [http://127.0.0.1:5000](http://127.0.0.1:5000])
 
 4. Current Setup
 
@@ -45,20 +59,42 @@
    - clubs.json - list of clubs with relevant information. You can look here to see what email addresses the app will accept for login.
    - booking.json - list of booking places by clubs for differentes dates/competitions.
 
+
 5. Testing
 
    The test framework used is pytest for unit and integration tests as well as the [Selenium](https://selenium-python.readthedocs.io)  framework for functional tests.
    The [coverage](https://coverage.readthedocs.io/en/6.3.2/) framework is installed to know the coverage of the code under test with settings_file "setup.cfg".
 
    To run Pytest with tested code coverage: 
-   <code>pytest --cov -v</code>
+   ```
+   pytest --cov -v
+   ```
 
    To run Pytest with export report coverage HTML :
-   <code>pytest --cov --cov-report html -v</code>
+
+   ```
+   pytest --cov --cov-report html -v
+   ```
 
 6. Perform
 
    The Locust framework has been configured to simulate reservations on the Flask application (6 users)
-   <code>locust -f ./tests/performance_tests/locustfile.py</code>
+   ```
+   locust -f ./tests/performance_tests/locustfile.py
+   ```
 
-   
+7. Respect PEP8 PYTHON:
+         - Convention Name
+            For JsonFile => camelCase
+            For Python => snake_case
+         - Convention Language Python : PEP8
+         
+      Après avoir activé l'environnement virtuel, vous pouvez entrez la commande suivante :
+
+      ```
+      flake8 --format=html --htmldir=flake_rapport --config=flake8.ini
+      ```
+
+      Un rapport sous format HTML sera généré dans le dossier "flake_rapport", avec comme argument "max-line-length" défini par défaut à 79 caractères par ligne si non précisé.
+      Dans le fichier de configuration "flake8.ini", est exclu le dossier env/.
+
