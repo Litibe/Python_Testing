@@ -20,6 +20,11 @@
 
      Before you begin, please ensure you have this installed globally.
 
+   - Convention Name
+      For JsonFile => camelCase
+      For Python => snake_case
+   - Convention Language Python : PEP8
+
 3. Installation
 
    - After cloning, change into the directory and type <code>virtualenv .</code>. This will then set up a a virtual python environment within that directory.
@@ -49,7 +54,7 @@
    <code>pytest --cov -v</code>
 
    To run Pytest with export report coverage HTML :
-   <code>pytest --cov --cov-report html</code>
+   <code>pytest --cov --cov-report html -v</code>
 
 6. Perform
 
