@@ -59,6 +59,6 @@
 6. Perform
 
    The Locust framework has been configured to simulate reservations on the Flask application (6 users)
-   <code></code>
+   <code>locust -f ./tests/performance_tests/locustfile.py</code>
 
    

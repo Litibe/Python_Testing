@@ -84,6 +84,13 @@ def test_request_index(client):
     response = client.get("/")
     elementhtml = "<h1>Welcome to the GUDLFT Registration Portal!</h1>"
     assert elementhtml.encode() in response.data
+    #detection tableau page de connexion
+    elementhtml = data_clubs[0]['name']
+    assert elementhtml.encode() in response.data
+    elementhtml = data_clubs[1]['name']
+    assert elementhtml.encode() in response.data
+    elementhtml = data_clubs[2]['name']
+    assert elementhtml.encode() in response.data
     assert response.status_code == 200
 
 
@@ -154,6 +161,5 @@ def test_booking_page_invalid_compt_club(client):
     url = "/book/" + competitions+ "/"
     url += club_name[0]+"%20"+club_name[1]
     response = client.get(url)
-
     assert response.status_code == 302
     
