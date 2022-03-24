@@ -1,7 +1,9 @@
+import json
 from random import randint
 from locust import HttpUser, task
 from server import load_clubs, load_compt, load_booking, load_datime_now
 import CONSTANTS
+
 list_clubs = load_clubs()
 list_compt = load_compt()
 list_booking = load_booking()
@@ -28,7 +30,50 @@ def search_competiton_available():
         return ""
 
 
-class ServerPerfTest(HttpUser):
+def on_start():
+    data_clubs = [
+            {
+                "name": "Simply Lift",
+                        "email": "john@simplylift.co",
+                        "points": "13"
+            },
+            {
+                "name": "Iron Temple",
+                        "email": "admin@irontemple.com",
+                        "points": "4"
+            },
+            {
+                "name": "She Lifts",
+                        "email": "kate@shelifts.co.uk",
+                        "points": "12"
+            }
+        ]
+    data_competitions = [
+            {
+                "name": "Spring Festival",
+                "date": "2022-03-27 10:00:00",
+                "numberOfPlaces": "25"
+            },
+            {
+                "name": "Fall Classic",
+                "date": "2022-10-22 13:30:00",
+                "numberOfPlaces": "13"
+            }
+        ]
+    data_booking = []
+    with open('clubs.json', "w") as file:
+        json.dump({'clubs': data_clubs}, file, indent=4)
+    with open('competitions.json', "w") as file:
+        json.dump({'competitions': data_competitions}, file, indent=4)
+    with open('booking.json', "w") as file:
+        json.dump({'booking': data_booking}, file, indent=4)
+
+
+on_start()
+
+
+class ServerPerfTest(HttpUser):  
+
     @task()
     def home(self):
         self.client.get("/")
@@ -36,7 +81,7 @@ class ServerPerfTest(HttpUser):
     @task()
     def login(self):
         clubs = load_clubs()
-        params = {"email": list_clubs[randint(
+        params = {"email": clubs[randint(
             0, len(clubs)-1)]["email"]}
         self.client.post('/showSummary', data=params)
 
@@ -67,3 +112,11 @@ class ServerPerfTest(HttpUser):
     @task()
     def logout(self):
         self.client.get('/logout')
+
+    def on_stop(self):
+        with open('clubs.json', "w") as file:
+            json.dump({'clubs': list_clubs}, file, indent=4)
+        with open('competitions.json', "w") as file:
+            json.dump({'competitions': list_compt}, file, indent=4)
+        with open('booking.json', "w") as file:
+            json.dump({'booking': list_booking}, file, indent=4)

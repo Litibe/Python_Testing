@@ -81,10 +81,30 @@
 
 6. Perform
 
-   The Locust framework has been configured to simulate reservations on the Flask application (6 users)
-   ```
-   locust -f ./tests/performance_tests/locustfile.py
-   ```
+   The Locust framework has been configured to simulate reservations on the Flask application (6 users) with json_files_testing for competitions.json/booking.json/clubs.json.
+   Before close flask App.
+   Launch Locust
+      ```
+      locust -f ./tests/performance_tests/locustfile.py
+      ```
+   Launch Flask server App
+      ```
+      export FLASK_APP=server
+      ```
+      and after 
+      ```
+      flask run
+      ```
+   Launch Website Locust [http://0.0.0.0:8089/](http://0.0.0.0:8089/)
+   With parameters : 
+      ```
+      Number of users : 6
+      Spawn rate : 1
+      Host : http://127.0.0.1:5000
+      ```
+   
+   After running tests, click on STOP Button. A reset json files will launch.
+
 
 7. Respect PEP8 PYTHON:
          - Convention Name
