@@ -72,7 +72,7 @@ def on_start():
 on_start()
 
 
-class ServerPerfTest(HttpUser):  
+class ServerPerfTest(HttpUser):
 
     @task()
     def home(self):
