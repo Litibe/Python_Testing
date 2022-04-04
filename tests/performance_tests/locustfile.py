@@ -20,12 +20,10 @@ def search_club_available():
 def search_competiton_available():
     competitions = load_compt()
     date_now = load_datime_now()
-    competitions_valid = []
-    for competition in competitions:
-        if competition['date'] > date_now:
-            competitions_valid.append(competition)
-    if len(competitions_valid) > 0:
-        return competitions_valid[randint(0, len(competitions_valid)-1)]
+    compt_valid = [c for c in competitions if c["date"] > date_now]
+    if len(compt_valid) > 0:
+        random_number = randint(0, len(compt_valid)-1)
+        return compt_valid[random_number]
     else:
         return ""
 
@@ -51,7 +49,7 @@ def on_start_before_launch_flask_server():
     data_competitions = [
             {
                 "name": "Spring Festival",
-                "date": "2022-03-27 10:00:00",
+                "date": "2023-03-27 10:00:00",
                 "numberOfPlaces": "25"
             },
             {
