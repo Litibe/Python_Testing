@@ -30,7 +30,7 @@ def search_competiton_available():
         return ""
 
 
-def on_start():
+def on_start_before_launch_flask_server():
     data_clubs = [
             {
                 "name": "Simply Lift",
@@ -69,7 +69,7 @@ def on_start():
         json.dump({'booking': data_booking}, file, indent=4)
 
 
-on_start()
+on_start_before_launch_flask_server()
 
 
 class ServerPerfTest(HttpUser):

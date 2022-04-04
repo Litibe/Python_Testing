@@ -68,15 +68,15 @@
    The test framework used is pytest for unit and integration tests as well as the [Selenium](https://selenium-python.readthedocs.io)  framework for functional tests.
    The [coverage](https://coverage.readthedocs.io/en/6.3.2/) framework is installed to know the coverage of the code under test with settings_file "setup.cfg".
 
-   To run Pytest with tested code coverage: 
+   To run Pytest with tested code coverage with verbose mode and details: 
    ```
-   pytest --cov -v
+   pytest --cov -v -s
    ```
 
    To run Pytest with export report coverage HTML :
 
    ```
-   pytest --cov --cov-report html -v
+   pytest --cov --cov-report html -v -s
    ```
 
 6. Perform
